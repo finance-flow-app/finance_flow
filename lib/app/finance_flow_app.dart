@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../src/features/home/presentation/pages/home_page.dart';
@@ -7,8 +8,11 @@ class FinanceFlowApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      home: const HomePage(),
     );
   }
 }
