@@ -35,6 +35,7 @@ dependencies:
   flutter_gen_runner:
   flutter_svg: ^2.2.3
   vector_graphics: ^1.1.11
+  flex_color_scheme: ^8.4.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
