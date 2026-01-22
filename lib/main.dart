@@ -8,8 +8,10 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   runApp(
     EasyLocalization(
+      startLocale: Locale('en'),
       supportedLocales: [Locale('en'), Locale('ru')],
       fallbackLocale: Locale('en'),
+      saveLocale: false,
       assetLoader: CodegenLoader(),
       path: 'assets/translations/',
       child: FinanceFlowApp(),
