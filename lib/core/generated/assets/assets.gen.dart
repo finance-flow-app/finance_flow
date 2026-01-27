@@ -17,11 +17,16 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
-  /// File path: assets/icons/.gitkeep
-  String get aGitkeep => 'assets/icons/.gitkeep';
+  /// File path: assets/icons/CurrencyDollar.svg
+  SvgGenImage get currencyDollar =>
+      const SvgGenImage('assets/icons/CurrencyDollar.svg');
+
+  /// File path: assets/icons/CurrencyRuble.svg
+  SvgGenImage get currencyRuble =>
+      const SvgGenImage('assets/icons/CurrencyRuble.svg');
 
   /// List of all assets
-  List<String> get values => [aGitkeep];
+  List<SvgGenImage> get values => [currencyDollar, currencyRuble];
 }
 
 class $AssetsImagesGen {
@@ -31,12 +36,8 @@ class $AssetsImagesGen {
   SvgGenImage get testSvgIcon =>
       const SvgGenImage('assets/images/test-svg-icon.svg');
 
-  /// File path: assets/images/test-svg-icon2.svg
-  SvgGenImage get testSvgIcon2 =>
-      const SvgGenImage('assets/images/test-svg-icon2.svg');
-
   /// List of all assets
-  List<SvgGenImage> get values => [testSvgIcon, testSvgIcon2];
+  List<SvgGenImage> get values => [testSvgIcon];
 }
 
 class $AssetsTranslationsGen {
