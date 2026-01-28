@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,11 @@ class CurrentLimitFieldWidget extends StatelessWidget {
     this.style,
     required this.amount,
     required this.limitPeriod,
-    this.colorScheme,
-    this.textTheme,
   });
 
   final TextStyle? style;
   final double amount;
   final LimitPeriod limitPeriod;
-  final ColorScheme? colorScheme;
-  final TextTheme? textTheme;
 
   static const Map<LimitPeriod, int> _limits = {
     LimitPeriod.day: 5000,
@@ -29,7 +26,7 @@ class CurrentLimitFieldWidget extends StatelessWidget {
     if (value == value.truncateToDouble()) {
       return value.toInt().toString();
     }
-    return value.toStringAsFixed(2);
+    return value.toStringAsFixed(2).replaceAll('.', ',');
   }
 
   String _getExceededMessage() {
@@ -44,20 +41,24 @@ class CurrentLimitFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final limit = _limits[limitPeriod] ?? 0;
     final isExceeded = amount > limit;
-    final errorColor = colorScheme?.error;
+    final errorColor = Theme.of(context).colorScheme.error;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           '${_formatAmount(amount)}/$limit',
-          style: style?.copyWith(color: isExceeded ? errorColor : null),
+          style:
+              style?.copyWith(color: isExceeded ? errorColor : null) ??
+              AppFonts.b4s20regular.copyWith(
+                color: isExceeded ? errorColor : null,
+              ),
         ),
         if (isExceeded) ...[
           const SizedBox(height: 8),
           Text(
             _getExceededMessage(),
-            style: textTheme?.bodySmall?.copyWith(color: errorColor),
+            style: AppFonts.b4s14regular.copyWith(color: errorColor),
           ),
         ],
       ],

@@ -9,6 +9,7 @@ enum LimitPeriod { day, week, month }
 class ExpenseAddState extends Equatable {
   const ExpenseAddState({
     this.isLoading = false,
+    this.isSubmitting = false,
     this.saveStatus = SaveStatus.initial,
     this.amount = 0.0,
     this.description,
@@ -17,6 +18,7 @@ class ExpenseAddState extends Equatable {
   });
 
   final bool isLoading;
+  final bool isSubmitting;
   final SaveStatus saveStatus;
   final double amount;
   final String? description;
@@ -27,6 +29,7 @@ class ExpenseAddState extends Equatable {
 
   ExpenseAddState copyWith({
     bool? isLoading,
+    bool? isSubmitting,
     SaveStatus? saveStatus,
     double? amount,
     String? description,
@@ -35,6 +38,7 @@ class ExpenseAddState extends Equatable {
   }) {
     return ExpenseAddState(
       isLoading: isLoading ?? this.isLoading,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
       saveStatus: saveStatus ?? this.saveStatus,
       amount: amount ?? this.amount,
       description: description ?? this.description,
@@ -46,6 +50,7 @@ class ExpenseAddState extends Equatable {
   @override
   List<Object?> get props => [
     isLoading,
+    isSubmitting,
     saveStatus,
     amount,
     description,

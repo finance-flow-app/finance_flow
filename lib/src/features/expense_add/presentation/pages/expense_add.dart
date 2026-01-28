@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/generated/assets/assets.gen.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
+import 'package:finance_flow/core/presentation/widgets/alert_servies.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/amount_form_field.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/categories_of_expense.dart';
@@ -10,6 +11,7 @@ import 'package:finance_flow/src/features/expense_add/presentation/widgets/descr
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/switch_limit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ExpenseAddScreen extends StatelessWidget {
   const ExpenseAddScreen({super.key});
@@ -29,26 +31,17 @@ class ExpenseAddScreen extends StatelessWidget {
             previous.saveStatus != current.saveStatus,
         listener: (context, state) {
           if (state.saveStatus == SaveStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Center(
-                  child: Text(
-                    LocaleKeys.expense_saved.tr(),
-                    style: AppFonts.b4s20regular,
-                  ),
-                ),
-              ),
+            AlertServices.show(
+              context,
+              title: LocaleKeys.expense_saved.tr(),
+              type: AlertType.success,
             );
+            context.pop();
           } else if (state.saveStatus == SaveStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Center(
-                  child: Text(
-                    LocaleKeys.expense_save_error.tr(),
-                    style: AppFonts.b4s20regular,
-                  ),
-                ),
-              ),
+            AlertServices.show(
+              context,
+              title: LocaleKeys.expense_save_error.tr(),
+              type: AlertType.error,
             );
           }
         },
@@ -72,8 +65,6 @@ class ExpenseAddScreen extends StatelessWidget {
                   style: AppFonts.b4s30regular,
                   amount: state.amount,
                   limitPeriod: state.limitPeriod,
-                  colorScheme: Theme.of(context).colorScheme,
-                  textTheme: Theme.of(context).textTheme,
                 ),
                 const SizedBox(height: 20),
                 SwitchLimitButtonWidget(
@@ -83,7 +74,6 @@ class ExpenseAddScreen extends StatelessWidget {
                       LimitPeriodChanged(period),
                     );
                   },
-                  colorScheme: Theme.of(context).colorScheme,
                 ),
                 const SizedBox(height: 20),
                 CategoriesOfExpenseWidget(
@@ -93,7 +83,6 @@ class ExpenseAddScreen extends StatelessWidget {
                       CategoryChanged(category),
                     );
                   },
-                  colorScheme: Theme.of(context).colorScheme,
                 ),
                 const SizedBox(height: 20),
                 AmountFormFieldWidget(
@@ -117,17 +106,25 @@ class ExpenseAddScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: state.isValid
+                  onPressed: state.isValid && !state.isSubmitting
                       ? () {
                           context.read<ExpenseAddBloc>().add(
                             ExpenseSubmitted(),
                           );
                         }
                       : null,
-                  child: Text(
-                    LocaleKeys.add.tr(),
-                    style: AppFonts.b4s18regular,
-                  ),
+                  child: state.isSubmitting
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                        )
+                      : Text(LocaleKeys.add.tr(), style: AppFonts.b4s18regular),
                 ),
               ],
             ),

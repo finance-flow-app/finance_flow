@@ -8,12 +8,10 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
     super.key,
     required this.selectedCategory,
     required this.onCategorySelected,
-    this.colorScheme,
   });
 
   final String? selectedCategory;
   final ValueChanged<String?> onCategorySelected;
-  final ColorScheme? colorScheme;
 
   static const List<String> _categoryKeys = [
     LocaleKeys.categories_food,
@@ -44,22 +42,23 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? colorScheme?.primary ?? Colors.transparent
-                    : colorScheme?.surfaceContainerHighest,
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(18),
                 border: Border.all(
                   color: isSelected
-                      ? colorScheme?.primary ?? Colors.transparent
-                      : colorScheme?.outline.withValues(alpha: 0.3) ??
-                          Colors.transparent,
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(
+                          context,
+                        ).colorScheme.outline.withValues(alpha: 0.3),
                 ),
               ),
               child: Text(
                 categoryKey.tr(),
                 style: AppFonts.b4s14regular.copyWith(
                   color: isSelected
-                      ? colorScheme?.onPrimary
-                      : colorScheme?.onSurface,
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),

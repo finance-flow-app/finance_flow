@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AmountFormFieldWidget extends StatelessWidget {
-  static final _moneyPattern = RegExp(r'^\d*,?\d{0,2}$');
   final String initialValue;
   final String hintText;
   final Widget? suffixIcon;
@@ -27,8 +26,24 @@ class AmountFormFieldWidget extends StatelessWidget {
       inputFormatters: [
         LengthLimitingTextInputFormatter(10),
         TextInputFormatter.withFunction((oldValue, newValue) {
-          if (newValue.text.isEmpty) return newValue;
-          if (!_moneyPattern.hasMatch(newValue.text)) return oldValue;
+          var text = newValue.text;
+          if (text.isEmpty) return newValue;
+          if (text.length >= 2 &&
+              text.startsWith('0') &&
+              text[1] != ',' &&
+              !oldValue.text.contains(',')) {
+            text = '0,${text.substring(1)}';
+            return TextEditingValue(
+              text: text,
+              selection: TextSelection.collapsed(offset: text.length),
+            );
+          }
+
+          final moneyPattern = RegExp(r'^\d*,?\d{0,2}$');
+          if (!moneyPattern.hasMatch(text)) return oldValue;
+          if (text.length > 1 && text.startsWith('0') && text[1] != ',') {
+            return oldValue;
+          }
           return newValue;
         }),
       ],

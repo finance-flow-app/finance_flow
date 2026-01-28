@@ -9,12 +9,10 @@ class SwitchLimitButtonWidget extends StatelessWidget {
     super.key,
     required this.selectedPeriod,
     required this.onPeriodChanged,
-    this.colorScheme,
   });
 
   final LimitPeriod selectedPeriod;
   final ValueChanged<LimitPeriod> onPeriodChanged;
-  final ColorScheme? colorScheme;
 
   static const List<LimitPeriod> _periods = LimitPeriod.values;
 
@@ -26,7 +24,7 @@ class SwitchLimitButtonWidget extends StatelessWidget {
     };
   }
 
-  List<Widget> _buildChildren() {
+  List<Widget> _buildChildren(BuildContext context) {
     final List<Widget> children = [];
 
     for (int i = 0; i < _periods.length; i++) {
@@ -41,7 +39,9 @@ class SwitchLimitButtonWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: isSelected ? colorScheme?.primary : Colors.transparent,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.transparent,
               borderRadius: BorderRadius.horizontal(
                 left: isFirst ? const Radius.circular(14) : Radius.zero,
                 right: isLast ? const Radius.circular(14) : Radius.zero,
@@ -52,8 +52,8 @@ class SwitchLimitButtonWidget extends StatelessWidget {
               _getPeriodLabel(period),
               style: AppFonts.b4s12regular.copyWith(
                 color: isSelected
-                    ? colorScheme?.onPrimary
-                    : colorScheme?.onSurface,
+                    ? Theme.of(context).colorScheme.onPrimary
+                    : Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
@@ -65,7 +65,7 @@ class SwitchLimitButtonWidget extends StatelessWidget {
           Container(
             width: 1,
             height: 28,
-            color: colorScheme?.outline.withValues(alpha: 0.3),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
           ),
         );
       }
@@ -79,14 +79,16 @@ class SwitchLimitButtonWidget extends StatelessWidget {
     return Container(
       height: 28,
       decoration: BoxDecoration(
-        color: colorScheme?.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color:
-              colorScheme?.outline.withValues(alpha: 0.3) ?? Colors.transparent,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
-      child: Row(mainAxisSize: MainAxisSize.min, children: _buildChildren()),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: _buildChildren(context),
+      ),
     );
   }
 }

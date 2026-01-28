@@ -42,13 +42,13 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
     ExpenseSubmitted event,
     Emitter<ExpenseAddState> emit,
   ) async {
-    if (!state.isValid) return;
-    emit(state.copyWith(isLoading: true, saveStatus: SaveStatus.initial));
+    if (!state.isValid || state.isSubmitting) return;
+    emit(state.copyWith(isSubmitting: true, saveStatus: SaveStatus.initial));
     try {
       await Future.delayed(const Duration(milliseconds: 500));
       emit(const ExpenseAddState(saveStatus: SaveStatus.success));
     } catch (e) {
-      emit(state.copyWith(isLoading: false, saveStatus: SaveStatus.failure));
+      emit(state.copyWith(isSubmitting: false, saveStatus: SaveStatus.failure));
     }
   }
 }
