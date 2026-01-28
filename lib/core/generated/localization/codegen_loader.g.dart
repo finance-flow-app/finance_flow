@@ -15,10 +15,60 @@ class CodegenLoader extends AssetLoader{
   }
 
   static const Map<String,dynamic> _ru = {
-  "hello_world": "Привет, мир!"
+  "welcome_to_finance_flow": "Добро пожаловать в Finance Flow",
+  "expense_add_title": "Внесение расходов",
+  "current_limit": "Текущий лимит",
+  "description_optional": "Описание (необязательно)",
+  "add": "Внести",
+  "categories": {
+    "food": "Еда",
+    "transport": "Транспорт",
+    "shopping": "Покупки",
+    "bills": "Счета",
+    "sources": "Доходы",
+    "education": "Образование",
+    "other": "Другое"
+  },
+  "limit_period": {
+    "day": "День",
+    "week": "Неделя",
+    "month": "Месяц"
+  },
+  "limit_exceeded": {
+    "day": "Превышен дневной лимит",
+    "week": "Превышен недельный лимит",
+    "month": "Превышен месячный лимит"
+  },
+  "expense_saved": "Трата успешно записана.",
+  "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз."
 };
 static const Map<String,dynamic> _en = {
-  "hello_world": "Hello, World!"
+  "welcome_to_finance_flow": "Welcome to Finance Flow",
+  "expense_add_title": "Add Expense",
+  "current_limit": "Current Limit",
+  "description_optional": "Description (optional)",
+  "add": "Add",
+  "categories": {
+    "food": "Food",
+    "transport": "Transport",
+    "shopping": "Shopping",
+    "bills": "Bills",
+    "sources": "Sources",
+    "education": "Education",
+    "other": "Other"
+  },
+  "limit_period": {
+    "day": "Day",
+    "week": "Week",
+    "month": "Month"
+  },
+  "limit_exceeded": {
+    "day": "Daily limit exceeded",
+    "week": "Weekly limit exceeded",
+    "month": "Monthly limit exceeded"
+  },
+  "expense_saved": "Expense saved successfully.",
+  "expense_save_error": "Failed to save. Please try again."
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": _ru, "en": _en};
 }

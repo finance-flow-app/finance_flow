@@ -1,4 +1,4 @@
-.PHONY: gen gen-l10n gen-l10n-keys gen-assets gen-assets-clean clean help
+.PHONY: gen gen-l10n gen-l10n-keys gen-assets gen-assets-clean clean fix-svg help
 
 ## Generate all (localization + assets)
 gen: gen-l10n gen-l10n-keys gen-assets
@@ -24,6 +24,20 @@ clean:
 	flutter clean
 	flutter pub get
 
+## Convert SVG files in assets/images and assets/icons to UTF-8
+fix-svg:
+	@echo "Converting SVG files to UTF-8..."
+	@for file in assets/images/*.svg assets/icons/*.svg; do \
+		if [ -f "$$file" ]; then \
+			encoding=$$(file -b --mime-encoding "$$file"); \
+			if [ "$$encoding" != "utf-8" ] && [ "$$encoding" != "us-ascii" ]; then \
+				echo "Converting $$file from $$encoding to UTF-8"; \
+				iconv -f UTF-16LE -t UTF-8 "$$file" > "$$file.tmp" && mv "$$file.tmp" "$$file"; \
+			fi; \
+		fi; \
+	done
+	@echo "Done!"
+
 ## Help
 help:
 	@echo "Available commands:"
@@ -33,3 +47,4 @@ help:
 	@echo "  make gen-assets       - Generate assets (flutter_gen)"
 	@echo "  make gen-assets-clean - Generate assets with --delete-conflicting-outputs"
 	@echo "  make clean            - Clean and get dependencies"
+	@echo "  make fix-svg          - Convert SVG files in assets/images and assets/icons to UTF-8"

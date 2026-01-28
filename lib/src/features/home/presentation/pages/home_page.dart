@@ -20,17 +20,21 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(LocaleKeys.hello_world.tr(), style: AppFonts.b4s18regular),
+            Text(
+              LocaleKeys.welcome_to_finance_flow.tr(),
+              style: AppFonts.b4s24regular,
+            ),
             const SizedBox(height: 20),
             Assets.images.testSvgIcon.svg(width: 220, height: 220),
             const SizedBox(height: 20),
-            Assets.images.testSvgIcon2.svg(width: 220, height: 220),
-            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                context.pushNamed(MobilePages.testScreenPage.name);
+                context.pushNamed(MobilePages.expenseAddPage.name);
               },
-              child: Text('Go to Test screen', style: AppFonts.b4s18regular),
+              child: Text(
+                LocaleKeys.expense_add_title.tr(),
+                style: AppFonts.b4s18regular,
+              ),
             ),
           ],
         ),

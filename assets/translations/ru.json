@@ -1,3 +1,28 @@
 {
-  "hello_world": "Привет, мир!"
+  "welcome_to_finance_flow": "Добро пожаловать в Finance Flow",
+  "expense_add_title": "Внесение расходов",
+  "current_limit": "Текущий лимит",
+  "description_optional": "Описание (необязательно)",
+  "add": "Внести",
+  "categories": {
+    "food": "Еда",
+    "transport": "Транспорт",
+    "shopping": "Покупки",
+    "bills": "Счета",
+    "sources": "Доходы",
+    "education": "Образование",
+    "other": "Другое"
+  },
+  "limit_period": {
+    "day": "День",
+    "week": "Неделя",
+    "month": "Месяц"
+  },
+  "limit_exceeded": {
+    "day": "Превышен дневной лимит",
+    "week": "Превышен недельный лимит",
+    "month": "Превышен месячный лимит"
+  },
+  "expense_saved": "Трата успешно записана.",
+  "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз."
 }
