@@ -1,31 +1,36 @@
 import 'package:collection/collection.dart';
+import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
+import 'package:finance_flow/src/features/expense_add/presentation/pages/expense_add.dart';
 import 'package:finance_flow/src/features/home/presentation/pages/home_page.dart';
-import 'package:finance_flow/src/features/test_sreen/presentation/pages/test_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
-  GoRouter router() {
-    return GoRouter(
-      initialLocation: MobilePages.homePage.path,
-      routes: [
-        GoRoute(
-          path: MobilePages.homePage.path,
-          name: MobilePages.homePage.name,
-          builder: (context, state) => const HomePage(),
+  static final GoRouter _router = GoRouter(
+    initialLocation: MobilePages.homePage.path,
+    routes: [
+      GoRoute(
+        path: MobilePages.homePage.path,
+        name: MobilePages.homePage.name,
+        builder: (context, state) => const HomePage(),
+      ),
+      GoRoute(
+        path: MobilePages.expenseAddPage.path,
+        name: MobilePages.expenseAddPage.name,
+        builder: (context, state) => BlocProvider(
+          create: (_) => ExpenseAddBloc(),
+          child: const ExpenseAddScreen(),
         ),
-        GoRoute(
-          path: MobilePages.testScreenPage.path,
-          name: MobilePages.testScreenPage.name,
-          builder: (context, state) => const TestScreen(),
-        ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+
+  GoRouter get router => _router;
 }
 
 enum MobilePages {
   homePage,
-  testScreenPage;
+  expenseAddPage;
 
   static MobilePages? fromName(String? name) {
     return MobilePages.values.firstWhereOrNull(
