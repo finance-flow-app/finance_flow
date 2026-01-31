@@ -17,6 +17,15 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Apple.svg
+  SvgGenImage get apple => const SvgGenImage('assets/icons/Apple.svg');
+
+  /// File path: assets/icons/Calendar.svg
+  SvgGenImage get calendar => const SvgGenImage('assets/icons/Calendar.svg');
+
+  /// File path: assets/icons/Catalog.svg
+  SvgGenImage get catalog => const SvgGenImage('assets/icons/Catalog.svg');
+
   /// File path: assets/icons/CurrencyDollar.svg
   SvgGenImage get currencyDollar =>
       const SvgGenImage('assets/icons/CurrencyDollar.svg');
@@ -25,8 +34,66 @@ class $AssetsIconsGen {
   SvgGenImage get currencyRuble =>
       const SvgGenImage('assets/icons/CurrencyRuble.svg');
 
+  /// File path: assets/icons/Education.svg
+  SvgGenImage get education => const SvgGenImage('assets/icons/Education.svg');
+
+  /// File path: assets/icons/FaceSatisfied.svg
+  SvgGenImage get faceSatisfied =>
+      const SvgGenImage('assets/icons/FaceSatisfied.svg');
+
+  /// File path: assets/icons/Filter.svg
+  SvgGenImage get filter => const SvgGenImage('assets/icons/Filter.svg');
+
+  /// File path: assets/icons/Finance.svg
+  SvgGenImage get finance => const SvgGenImage('assets/icons/Finance.svg');
+
+  /// File path: assets/icons/HealthCross.svg
+  SvgGenImage get healthCross =>
+      const SvgGenImage('assets/icons/HealthCross.svg');
+
+  /// File path: assets/icons/List.svg
+  SvgGenImage get list => const SvgGenImage('assets/icons/List.svg');
+
+  /// File path: assets/icons/Money.svg
+  SvgGenImage get money => const SvgGenImage('assets/icons/Money.svg');
+
+  /// File path: assets/icons/Restaurant.svg
+  SvgGenImage get restaurant =>
+      const SvgGenImage('assets/icons/Restaurant.svg');
+
+  /// File path: assets/icons/ShoppingCart.svg
+  SvgGenImage get shoppingCart =>
+      const SvgGenImage('assets/icons/ShoppingCart.svg');
+
+  /// File path: assets/icons/Taxi.svg
+  SvgGenImage get taxi => const SvgGenImage('assets/icons/Taxi.svg');
+
+  /// File path: assets/icons/Train.svg
+  SvgGenImage get train => const SvgGenImage('assets/icons/Train.svg');
+
+  /// File path: assets/icons/Wifi.svg
+  SvgGenImage get wifi => const SvgGenImage('assets/icons/Wifi.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [currencyDollar, currencyRuble];
+  List<SvgGenImage> get values => [
+    apple,
+    calendar,
+    catalog,
+    currencyDollar,
+    currencyRuble,
+    education,
+    faceSatisfied,
+    filter,
+    finance,
+    healthCross,
+    list,
+    money,
+    restaurant,
+    shoppingCart,
+    taxi,
+    train,
+    wifi,
+  ];
 }
 
 class $AssetsImagesGen {
