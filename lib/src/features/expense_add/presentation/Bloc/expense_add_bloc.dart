@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/src/features/expense_add/domain/entity/expense_add_entity.dart';
 import 'package:finance_flow/src/features/expense_add/domain/repository/expense_add_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,22 +52,16 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
     try {
       final entity = ExpenseAddEntity(
         amount: state.amount,
-        category: state.category,
+        category: state.category ?? LocaleKeys.categories_other,
         description: state.description?.isNotEmpty == true
             ? state.description
             : null,
         createdAt: DateTime.now(),
       );
       await _repository.saveExpense(entity);
-      emit(state.copyWith(
-        isSubmitting: false,
-        saveStatus: SaveStatus.success,
-      ));
+      emit(state.copyWith(isSubmitting: false, saveStatus: SaveStatus.success));
     } catch (_) {
-      emit(state.copyWith(
-        isSubmitting: false,
-        saveStatus: SaveStatus.failure,
-      ));
+      emit(state.copyWith(isSubmitting: false, saveStatus: SaveStatus.failure));
     }
   }
 }
