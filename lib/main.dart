@@ -1,21 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/generated/localization/codegen_loader.g.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'app/finance_flow_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  final sharedPreferences = await SharedPreferences.getInstance();
   runApp(
     EasyLocalization(
-      startLocale: Locale('en'),
-      supportedLocales: [Locale('en'), Locale('ru')],
-      fallbackLocale: Locale('en'),
+      startLocale: const Locale('en'),
+      supportedLocales: const [Locale('en'), Locale('ru')],
+      fallbackLocale: const Locale('en'),
       saveLocale: false,
       assetLoader: CodegenLoader(),
       path: 'assets/translations/',
-      child: FinanceFlowApp(),
+      child: FinanceFlowApp(sharedPreferences: sharedPreferences),
     ),
   );
-  // runApp(const FinanceFlowApp());
 }
