@@ -33,7 +33,7 @@ class CodegenLoader extends AssetLoader{
     "taxi": "Такси",
     "restaurants": "Рестораны",
     "internet": "Интернет",
-    "other": "Другое"
+    "other_category": "Другое"
   },
   "limit_period": {
     "day": "День",
@@ -44,6 +44,11 @@ class CodegenLoader extends AssetLoader{
     "day": "Превышен дневной лимит",
     "week": "Превышен недельный лимит",
     "month": "Превышен месячный лимит"
+  },
+  "limit_for_period": {
+    "day": "Это ваш лимит на день",
+    "week": "Это ваш лимит на неделю",
+    "month": "Это ваш лимит на месяц"
   },
   "expense_saved": "Трата успешно записана.",
   "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз.",
@@ -80,7 +85,7 @@ static const Map<String,dynamic> _en = {
     "taxi": "Taxi",
     "restaurants": "Restaurants",
     "internet": "Internet",
-    "other": "Other"
+    "other_category": "Other"
   },
   "limit_period": {
     "day": "Day",
@@ -91,6 +96,11 @@ static const Map<String,dynamic> _en = {
     "day": "Daily limit exceeded",
     "week": "Weekly limit exceeded",
     "month": "Monthly limit exceeded"
+  },
+  "limit_for_period": {
+    "day": "This is your limit for the day",
+    "week": "This is your limit for the week",
+    "month": "This is your limit for the month"
   },
   "expense_saved": "Expense saved successfully.",
   "expense_save_error": "Failed to save. Please try again.",

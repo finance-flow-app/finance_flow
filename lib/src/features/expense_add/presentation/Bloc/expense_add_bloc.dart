@@ -52,7 +52,7 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
     try {
       final entity = ExpenseAddEntity(
         amount: state.amount,
-        category: state.category ?? LocaleKeys.categories_other,
+        category: state.category ?? LocaleKeys.categories_other_category,
         description: state.description?.isNotEmpty == true
             ? state.description
             : null,

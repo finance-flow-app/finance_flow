@@ -6,8 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ExpenseAddRepositoryImpl implements ExpenseAddRepository {
   static const _saveEntityKey = 'expense_entities';
 
-  ExpenseAddRepositoryImpl({required SharedPreferences sharedPreferences})
-    : _sharedPreferences = sharedPreferences;
+  ExpenseAddRepositoryImpl(this._sharedPreferences);
 
   final SharedPreferences _sharedPreferences;
 

@@ -17,7 +17,7 @@
     "taxi": "Taxi",
     "restaurants": "Restaurants",
     "internet": "Internet",
-    "other": "Other"
+    "other_category": "Other"
   },
   "limit_period": {
     "day": "Day",
@@ -28,6 +28,11 @@
     "day": "Daily limit exceeded",
     "week": "Weekly limit exceeded",
     "month": "Monthly limit exceeded"
+  },
+  "limit_for_period": {
+    "day": "This is your limit for the day",
+    "week": "This is your limit for the week",
+    "month": "This is your limit for the month"
   },
   "expense_saved": "Expense saved successfully.",
   "expense_save_error": "Failed to save. Please try again.",

@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
+import 'package:finance_flow/core/di/service_locator.dart';
 import 'package:finance_flow/core/generated/assets/assets.gen.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/core/presentation/widgets/alert_servies.dart';
+import 'package:finance_flow/src/features/expense_add/domain/repository/expense_add_repository.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/amount_form_field.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/categories_of_expense.dart';
@@ -15,6 +17,18 @@ import 'package:go_router/go_router.dart';
 
 class ExpenseAddScreen extends StatelessWidget {
   const ExpenseAddScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => ExpenseAddBloc(sl<ExpenseAddRepository>()),
+      child: const _ExpenseAddContent(),
+    );
+  }
+}
+
+class _ExpenseAddContent extends StatelessWidget {
+  const _ExpenseAddContent();
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +70,6 @@ class ExpenseAddScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 16),
-                Text(
-                  LocaleKeys.current_limit.tr(),
-                  style: AppFonts.b5s26medium,
-                ),
-                const SizedBox(height: 20),
-                CurrentLimitFieldWidget(
-                  style: AppFonts.b4s30regular,
-                  amount: state.amount,
-                  limitPeriod: state.limitPeriod,
-                ),
-                const SizedBox(height: 20),
                 SwitchLimitButtonWidget(
                   selectedPeriod: state.limitPeriod,
                   onPeriodChanged: (period) {
@@ -74,6 +77,11 @@ class ExpenseAddScreen extends StatelessWidget {
                       LimitPeriodChanged(period),
                     );
                   },
+                ),
+                const SizedBox(height: 16),
+                CurrentLimitFieldWidget(
+                  amount: state.amount,
+                  limitPeriod: state.limitPeriod,
                 ),
                 const SizedBox(height: 20),
                 CategoriesOfExpenseWidget(

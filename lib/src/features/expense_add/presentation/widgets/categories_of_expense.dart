@@ -25,7 +25,7 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
     LocaleKeys.categories_health,
     LocaleKeys.categories_entertainment,
     LocaleKeys.categories_internet,
-    LocaleKeys.categories_other,
+    LocaleKeys.categories_other_category,
   ];
 
   static Widget _iconForCategoryKey(
