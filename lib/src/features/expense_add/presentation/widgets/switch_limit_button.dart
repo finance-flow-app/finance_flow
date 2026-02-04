@@ -24,70 +24,60 @@ class SwitchLimitButtonWidget extends StatelessWidget {
     };
   }
 
-  List<Widget> _buildChildren(BuildContext context) {
-    final List<Widget> children = [];
-
-    for (int i = 0; i < _periods.length; i++) {
-      final period = _periods[i];
-      final isSelected = period == selectedPeriod;
-      final isFirst = i == 0;
-      final isLast = i == _periods.length - 1;
-
-      children.add(
-        GestureDetector(
-          onTap: () => onPeriodChanged(period),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: isSelected
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.transparent,
-              borderRadius: BorderRadius.horizontal(
-                left: isFirst ? const Radius.circular(14) : Radius.zero,
-                right: isLast ? const Radius.circular(14) : Radius.zero,
-              ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              _getPeriodLabel(period),
-              style: AppFonts.b4s12regular.copyWith(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ),
-        ),
-      );
-
-      if (!isLast) {
-        children.add(
-          Container(
-            width: 1,
-            height: 28,
-            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-          ),
-        );
-      }
-    }
-
-    return children;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 28,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.3),
-        ),
-      ),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return SizedBox(
+      height: 40,
       child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: _buildChildren(context),
+        children: _periods.map((period) {
+          final isSelected = period == selectedPeriod;
+          return Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: period != LimitPeriod.month ? 8 : 0,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? colorScheme.primary
+                      : colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected
+                        ? colorScheme.primary
+                        : colorScheme.outline.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(20),
+                  child: InkWell(
+                    onTap: () => onPeriodChanged(period),
+                    borderRadius: BorderRadius.circular(20),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8,
+                        horizontal: 16,
+                      ),
+                      child: Center(
+                        child: Text(
+                          _getPeriodLabel(period),
+                          style: AppFonts.b4s14regular.copyWith(
+                            color: isSelected
+                                ? colorScheme.onPrimary
+                                : colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

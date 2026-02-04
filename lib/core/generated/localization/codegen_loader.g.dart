@@ -27,7 +27,13 @@ class CodegenLoader extends AssetLoader{
     "bills": "Счета",
     "sources": "Доходы",
     "education": "Образование",
-    "other": "Другое"
+    "health": "Здоровье",
+    "entertainment": "Развлечения",
+    "savings": "Вклады",
+    "taxi": "Такси",
+    "restaurants": "Рестораны",
+    "internet": "Интернет",
+    "other_category": "Другое"
   },
   "limit_period": {
     "day": "День",
@@ -39,8 +45,26 @@ class CodegenLoader extends AssetLoader{
     "week": "Превышен недельный лимит",
     "month": "Превышен месячный лимит"
   },
+  "limit_for_period": {
+    "day": "Это ваш лимит на день",
+    "week": "Это ваш лимит на неделю",
+    "month": "Это ваш лимит на месяц"
+  },
   "expense_saved": "Трата успешно записана.",
-  "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз."
+  "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз.",
+  "expenses_history_title": "История расходов",
+  "expenses_history": {
+    "all_categories": "Все",
+    "select_period": "Выбрать период",
+    "quick_select": "Быстрый выбор",
+    "custom_period": "Свой период",
+    "apply": "Применить",
+    "spending_limits": "Расходы",
+    "no_expenses": "Нет расходов за этот период",
+    "today": "Сегодня",
+    "yesterday": "Вчера",
+    "limit_exceeded_warning": "Вы превысили лимит"
+  }
 };
 static const Map<String,dynamic> _en = {
   "welcome_to_finance_flow": "Welcome to Finance Flow",
@@ -55,7 +79,13 @@ static const Map<String,dynamic> _en = {
     "bills": "Bills",
     "sources": "Sources",
     "education": "Education",
-    "other": "Other"
+    "health": "Health",
+    "entertainment": "Entertainment",
+    "savings": "Savings",
+    "taxi": "Taxi",
+    "restaurants": "Restaurants",
+    "internet": "Internet",
+    "other_category": "Other"
   },
   "limit_period": {
     "day": "Day",
@@ -67,8 +97,26 @@ static const Map<String,dynamic> _en = {
     "week": "Weekly limit exceeded",
     "month": "Monthly limit exceeded"
   },
+  "limit_for_period": {
+    "day": "This is your limit for the day",
+    "week": "This is your limit for the week",
+    "month": "This is your limit for the month"
+  },
   "expense_saved": "Expense saved successfully.",
-  "expense_save_error": "Failed to save. Please try again."
+  "expense_save_error": "Failed to save. Please try again.",
+  "expenses_history_title": "Expenses History",
+  "expenses_history": {
+    "all_categories": "All",
+    "select_period": "Select period",
+    "quick_select": "Quick select",
+    "custom_period": "Custom period",
+    "apply": "Apply",
+    "spending_limits": "Expenses",
+    "no_expenses": "No expenses for this period",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "limit_exceeded_warning": "You have exceeded the limit"
+  }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": _ru, "en": _en};
 }

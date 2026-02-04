@@ -11,7 +11,13 @@
     "bills": "Счета",
     "sources": "Доходы",
     "education": "Образование",
-    "other": "Другое"
+    "health": "Здоровье",
+    "entertainment": "Развлечения",
+    "savings": "Вклады",
+    "taxi": "Такси",
+    "restaurants": "Рестораны",
+    "internet": "Интернет",
+    "other_category": "Другое"
   },
   "limit_period": {
     "day": "День",
@@ -23,6 +29,24 @@
     "week": "Превышен недельный лимит",
     "month": "Превышен месячный лимит"
   },
+  "limit_for_period": {
+    "day": "Это ваш лимит на день",
+    "week": "Это ваш лимит на неделю",
+    "month": "Это ваш лимит на месяц"
+  },
   "expense_saved": "Трата успешно записана.",
-  "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз."
+  "expense_save_error": "Не удалось сохранить. Попробуйте ещё раз.",
+  "expenses_history_title": "История расходов",
+  "expenses_history": {
+    "all_categories": "Все",
+    "select_period": "Выбрать период",
+    "quick_select": "Быстрый выбор",
+    "custom_period": "Свой период",
+    "apply": "Применить",
+    "spending_limits": "Расходы",
+    "no_expenses": "Нет расходов за этот период",
+    "today": "Сегодня",
+    "yesterday": "Вчера",
+    "limit_exceeded_warning": "Вы превысили лимит"
+  }
 }

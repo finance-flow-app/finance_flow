@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
-import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/pages/expense_add.dart';
 import 'package:finance_flow/src/features/home/presentation/pages/home_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
+  AppRouter();
+
   static final GoRouter _router = GoRouter(
     initialLocation: MobilePages.homePage.path,
     routes: [
@@ -17,14 +17,10 @@ class AppRouter {
       GoRoute(
         path: MobilePages.expenseAddPage.path,
         name: MobilePages.expenseAddPage.name,
-        builder: (context, state) => BlocProvider(
-          create: (_) => ExpenseAddBloc(),
-          child: const ExpenseAddScreen(),
-        ),
+        builder: (context, state) => const ExpenseAddScreen(),
       ),
     ],
   );
-
   GoRouter get router => _router;
 }
 

@@ -11,7 +11,13 @@
     "bills": "Bills",
     "sources": "Sources",
     "education": "Education",
-    "other": "Other"
+    "health": "Health",
+    "entertainment": "Entertainment",
+    "savings": "Savings",
+    "taxi": "Taxi",
+    "restaurants": "Restaurants",
+    "internet": "Internet",
+    "other_category": "Other"
   },
   "limit_period": {
     "day": "Day",
@@ -23,6 +29,24 @@
     "week": "Weekly limit exceeded",
     "month": "Monthly limit exceeded"
   },
+  "limit_for_period": {
+    "day": "This is your limit for the day",
+    "week": "This is your limit for the week",
+    "month": "This is your limit for the month"
+  },
   "expense_saved": "Expense saved successfully.",
-  "expense_save_error": "Failed to save. Please try again."
+  "expense_save_error": "Failed to save. Please try again.",
+  "expenses_history_title": "Expenses History",
+  "expenses_history": {
+    "all_categories": "All",
+    "select_period": "Select period",
+    "quick_select": "Quick select",
+    "custom_period": "Custom period",
+    "apply": "Apply",
+    "spending_limits": "Expenses",
+    "no_expenses": "No expenses for this period",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "limit_exceeded_warning": "You have exceeded the limit"
+  }
 }
