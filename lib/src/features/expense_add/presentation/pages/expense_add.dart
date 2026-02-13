@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/di/service_locator.dart';
-import 'package:finance_flow/core/generated/assets/assets.gen.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/core/presentation/widgets/alert_servies.dart';
+import 'package:finance_flow/core/shared/app_navigation_widget.dart';
 import 'package:finance_flow/src/features/expense_add/domain/repository/expense_add_repository.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
+import 'package:finance_flow/src/features/expense_add/presentation/widgets/add_expense_button.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/amount_form_field.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/categories_of_expense.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/current_limit_field.dart';
@@ -60,16 +63,18 @@ class _ExpenseAddContent extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+          return RefreshIndicator(
+            onRefresh: () {
+              final completer = Completer<void>();
+              context.read<ExpenseAddBloc>().add(
+                ExpenseAddRefreshRequested(completer),
+              );
+              return completer.future;
+            },
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               children: [
-                const SizedBox(height: 16),
                 SwitchLimitButtonWidget(
                   selectedPeriod: state.limitPeriod,
                   onPeriodChanged: (period) {
@@ -94,13 +99,10 @@ class _ExpenseAddContent extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 AmountFormFieldWidget(
-                  suffixIcon: context.locale.languageCode == 'ru'
-                      ? Assets.icons.currencyRuble.svg(width: 24, height: 24)
-                      : Assets.icons.currencyDollar.svg(width: 24, height: 24),
+                  currency: context.locale.languageCode == 'ru' ? 'RUB' : 'USD',
                   hintText: '0,00',
                   onChanged: (amount) {
                     context.read<ExpenseAddBloc>().add(AmountChanged(amount));
-                    // debugPrint('amount: $amount');
                   },
                 ),
                 const SizedBox(height: 20),
@@ -113,18 +115,16 @@ class _ExpenseAddContent extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: state.isValid && !state.isSubmitting
-                      ? () {
-                          context.read<ExpenseAddBloc>().add(
-                            ExpenseSubmitted(),
-                          );
-                        }
-                      : null,
+                AddExpenseButton(
+                  isEnabled: state.isValid && !state.isSubmitting,
+                  isSubmitting: state.isSubmitting,
+                  onPressed: () {
+                    context.read<ExpenseAddBloc>().add(ExpenseSubmitted());
+                  },
                   child: state.isSubmitting
                       ? const SizedBox(
-                          height: 20,
-                          width: 20,
+                          height: 40,
+                          width: 40,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             valueColor: AlwaysStoppedAnimation<Color>(
@@ -132,12 +132,27 @@ class _ExpenseAddContent extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Text(LocaleKeys.add.tr(), style: AppFonts.b4s18regular),
+                      : Text(
+                          LocaleKeys.add_expense.tr(),
+                          style: AppFonts.b6s22semiBold.copyWith(
+                            color: (state.isValid && !state.isSubmitting)
+                                ? Colors.white
+                                : Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.5),
+                          ),
+                        ),
                 ),
               ],
             ),
           );
         },
+      ),
+      bottomNavigationBar: const SafeArea(
+        top: false,
+        left: false,
+        right: false,
+        bottom: false,
+        child: AppNavigationWidget(selectedIndex: -1),
       ),
     );
   }

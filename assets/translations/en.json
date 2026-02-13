@@ -3,7 +3,7 @@
   "expense_add_title": "Add Expense",
   "current_limit": "Current Limit",
   "description_optional": "Description (optional)",
-  "add": "Add",
+  "add_expense": "Add Expense",
   "categories": {
     "food": "Food",
     "transport": "Transport",

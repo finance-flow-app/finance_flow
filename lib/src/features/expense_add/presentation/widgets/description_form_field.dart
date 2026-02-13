@@ -18,34 +18,44 @@ class DescriptionFormFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: AppFonts.b4s18regular,
+      style: AppFonts.b5s20medium,
       maxLength: _maxLength,
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppFonts.b4s18regular.copyWith(color: color),
+        hintStyle: AppFonts.b5s20medium.copyWith(color: color),
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
-          vertical: 12,
+          vertical: 24,
         ),
         filled: true,
-        fillColor: const Color.fromARGB(16, 0, 0, 0),
+        fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
         border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(20),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.primary,
             width: 1.5,
           ),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.red, width: 1.5),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

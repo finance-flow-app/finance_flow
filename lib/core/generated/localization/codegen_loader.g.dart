@@ -19,7 +19,7 @@ class CodegenLoader extends AssetLoader{
   "expense_add_title": "Внесение расходов",
   "current_limit": "Текущий лимит",
   "description_optional": "Описание (необязательно)",
-  "add": "Внести",
+  "add_expense": "Внести расход",
   "categories": {
     "food": "Еда",
     "transport": "Транспорт",
@@ -71,7 +71,7 @@ static const Map<String,dynamic> _en = {
   "expense_add_title": "Add Expense",
   "current_limit": "Current Limit",
   "description_optional": "Description (optional)",
-  "add": "Add",
+  "add_expense": "Add Expense",
   "categories": {
     "food": "Food",
     "transport": "Transport",

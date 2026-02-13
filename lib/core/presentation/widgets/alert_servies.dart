@@ -21,12 +21,12 @@ class AlertServices {
       SnackBar(
         backgroundColor: backgroundColor,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         content: Center(
           child: Text(
             title,
-            style: AppFonts.b4s18regular.copyWith(color: textColor),
+            style: AppFonts.b5s20medium.copyWith(color: textColor),
           ),
         ),
       ),
