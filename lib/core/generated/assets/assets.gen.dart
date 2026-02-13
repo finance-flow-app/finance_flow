@@ -26,6 +26,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Catalog.svg
   SvgGenImage get catalog => const SvgGenImage('assets/icons/Catalog.svg');
 
+  /// File path: assets/icons/ChartClusterBar.svg
+  SvgGenImage get chartClusterBar =>
+      const SvgGenImage('assets/icons/ChartClusterBar.svg');
+
   /// File path: assets/icons/CurrencyDollar.svg
   SvgGenImage get currencyDollar =>
       const SvgGenImage('assets/icons/CurrencyDollar.svg');
@@ -51,15 +55,25 @@ class $AssetsIconsGen {
   SvgGenImage get healthCross =>
       const SvgGenImage('assets/icons/HealthCross.svg');
 
+  /// File path: assets/icons/Home.svg
+  SvgGenImage get home => const SvgGenImage('assets/icons/Home.svg');
+
   /// File path: assets/icons/List.svg
   SvgGenImage get list => const SvgGenImage('assets/icons/List.svg');
 
   /// File path: assets/icons/Money.svg
   SvgGenImage get money => const SvgGenImage('assets/icons/Money.svg');
 
+  /// File path: assets/icons/ResearchHintonPlot.svg
+  SvgGenImage get researchHintonPlot =>
+      const SvgGenImage('assets/icons/ResearchHintonPlot.svg');
+
   /// File path: assets/icons/Restaurant.svg
   SvgGenImage get restaurant =>
       const SvgGenImage('assets/icons/Restaurant.svg');
+
+  /// File path: assets/icons/Search.svg
+  SvgGenImage get search => const SvgGenImage('assets/icons/Search.svg');
 
   /// File path: assets/icons/ShoppingCart.svg
   SvgGenImage get shoppingCart =>
@@ -79,6 +93,7 @@ class $AssetsIconsGen {
     apple,
     calendar,
     catalog,
+    chartClusterBar,
     currencyDollar,
     currencyRuble,
     education,
@@ -86,9 +101,12 @@ class $AssetsIconsGen {
     filter,
     finance,
     healthCross,
+    home,
     list,
     money,
+    researchHintonPlot,
     restaurant,
+    search,
     shoppingCart,
     taxi,
     train,

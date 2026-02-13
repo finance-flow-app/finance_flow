@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:finance_flow/core/router/page_transitions.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/pages/expense_add.dart';
 import 'package:finance_flow/src/features/home/presentation/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
@@ -12,12 +13,14 @@ class AppRouter {
       GoRoute(
         path: MobilePages.homePage.path,
         name: MobilePages.homePage.name,
-        builder: (context, state) => const HomePage(),
+        pageBuilder: (context, state) =>
+            bottomUpPage(key: state.pageKey, child: const HomePage()),
       ),
       GoRoute(
         path: MobilePages.expenseAddPage.path,
         name: MobilePages.expenseAddPage.name,
-        builder: (context, state) => const ExpenseAddScreen(),
+        pageBuilder: (context, state) =>
+            bottomUpPage(key: state.pageKey, child: const ExpenseAddScreen()),
       ),
     ],
   );

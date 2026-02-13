@@ -7,7 +7,7 @@ abstract class  LocaleKeys {
   static const expense_add_title = 'expense_add_title';
   static const current_limit = 'current_limit';
   static const description_optional = 'description_optional';
-  static const add = 'add';
+  static const add_expense = 'add_expense';
   static const categories_food = 'categories.food';
   static const categories_transport = 'categories.transport';
   static const categories_shopping = 'categories.shopping';

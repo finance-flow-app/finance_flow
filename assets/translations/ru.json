@@ -3,7 +3,7 @@
   "expense_add_title": "Внесение расходов",
   "current_limit": "Текущий лимит",
   "description_optional": "Описание (необязательно)",
-  "add": "Внести",
+  "add_expense": "Внести расход",
   "categories": {
     "food": "Еда",
     "transport": "Транспорт",

@@ -55,12 +55,14 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
     );
   }
 
+  static const double _borderRadius = 12;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return SizedBox(
-      height: 40,
+      height: 44,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
@@ -73,18 +75,36 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () => onCategorySelected(isSelected ? null : categoryKey),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? colorScheme.primary
-                    : colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(20),
+                color: isSelected ? null : colorScheme.surfaceContainerHigh,
+                gradient: isSelected
+                    ? LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color.lerp(
+                            colorScheme.primary,
+                            colorScheme.primaryContainer,
+                            0.4,
+                          )!,
+                          colorScheme.primary,
+                          Color.lerp(
+                            colorScheme.primary,
+                            colorScheme.primaryContainer,
+                            0.4,
+                          )!,
+                        ],
+                        stops: const [0.0, 0.5, 1.0],
+                      )
+                    : null,
+                borderRadius: BorderRadius.circular(_borderRadius),
                 border: Border.all(
                   color: isSelected
                       ? colorScheme.primary
-                      : colorScheme.outline.withValues(alpha: 0.3),
+                      : colorScheme.primary.withValues(alpha: 0.5),
+                  width: 1.5,
                 ),
               ),
               child: Row(
@@ -95,15 +115,15 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
                     size: 18,
                     color: isSelected
                         ? colorScheme.onPrimary
-                        : colorScheme.onSurface,
+                        : colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     categoryKey.tr(),
-                    style: AppFonts.b4s14regular.copyWith(
+                    style: AppFonts.b5s14medium.copyWith(
                       color: isSelected
                           ? colorScheme.onPrimary
-                          : colorScheme.onSurface,
+                          : colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ],

@@ -14,6 +14,7 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
     on<CategoryChanged>(_onCategoryChanged);
     on<LimitPeriodChanged>(_onLimitPeriodChanged);
     on<ExpenseSubmitted>(_onExpenseSubmitted);
+    on<ExpenseAddInitial>(_onExpenseAddInitial);
   }
 
   final ExpenseAddRepository _repository;
@@ -49,6 +50,7 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
   ) async {
     if (!state.isValid || state.isSubmitting) return;
     emit(state.copyWith(isSubmitting: true, saveStatus: SaveStatus.initial));
+    await Future.delayed(const Duration(milliseconds: 1000));
     try {
       final entity = ExpenseAddEntity(
         amount: state.amount,
@@ -62,6 +64,20 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
       emit(state.copyWith(isSubmitting: false, saveStatus: SaveStatus.success));
     } catch (_) {
       emit(state.copyWith(isSubmitting: false, saveStatus: SaveStatus.failure));
+    }
+  }
+
+  Future<void> _onExpenseAddInitial(
+    ExpenseAddInitial event,
+    Emitter<ExpenseAddState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    await Future.delayed(const Duration(milliseconds: 1)); // имитация загрузки
+    try {
+      // загрузка данных (лимиты, категории и т.п.)
+      emit(state.copyWith(isLoading: false));
+    } catch (_) {
+      emit(state.copyWith(isLoading: false));
     }
   }
 }
