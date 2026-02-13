@@ -28,11 +28,57 @@ class ExpenseAddScreen extends StatelessWidget {
   }
 }
 
+class _RefreshableScrollArea extends StatefulWidget {
+  const _RefreshableScrollArea({
+    required this.displacement,
+    required this.onRefresh,
+    required this.child,
+  });
+
+  final double displacement;
+  final Future<void> Function() onRefresh;
+  final Widget child;
+
+  @override
+  State<_RefreshableScrollArea> createState() => _RefreshableScrollAreaState();
+}
+
+class _RefreshableScrollAreaState extends State<_RefreshableScrollArea> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _onRefresh() async {
+    await widget.onRefresh();
+    if (mounted && _scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      displacement: widget.displacement,
+      onRefresh: _onRefresh,
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: widget.child,
+      ),
+    );
+  }
+}
+
 class _ExpenseAddContent extends StatelessWidget {
   const _ExpenseAddContent();
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.paddingOf(context).top + kToolbarHeight;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,136 +90,136 @@ class _ExpenseAddContent extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: RefreshIndicator(
+            child: _RefreshableScrollArea(
+              displacement: topPadding,
               onRefresh: () async {
                 final bloc = context.read<ExpenseAddBloc>();
                 bloc.add(ExpenseAddInitial());
+                await bloc.stream
+                    .where((ExpenseAddState s) => s.isLoading)
+                    .first
+                    .timeout(const Duration(seconds: 5));
                 await bloc.stream
                     .where((ExpenseAddState s) => !s.isLoading)
                     .first
                     .timeout(const Duration(seconds: 30));
               },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight:
-                        MediaQuery.of(context).size.height -
-                        kToolbarHeight -
-                        MediaQuery.of(context).padding.top -
-                        80,
-                  ),
-                  child: BlocConsumer<ExpenseAddBloc, ExpenseAddState>(
-                    listenWhen: (previous, current) =>
-                        previous.saveStatus != current.saveStatus,
-                    listener: (context, state) {
-                      if (state.saveStatus == SaveStatus.success) {
-                        AlertServices.show(
-                          context,
-                          title: LocaleKeys.expense_saved.tr(),
-                          type: AlertType.success,
-                        );
-                        context.pop();
-                      } else if (state.saveStatus == SaveStatus.failure) {
-                        AlertServices.show(
-                          context,
-                          title: LocaleKeys.expense_save_error.tr(),
-                          type: AlertType.error,
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 16),
-                            SwitchLimitButtonWidget(
-                              selectedPeriod: state.limitPeriod,
-                              onPeriodChanged: (period) {
-                                context.read<ExpenseAddBloc>().add(
-                                  LimitPeriodChanged(period),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 16),
-                            CurrentLimitFieldWidget(
-                              amount: state.amount,
-                              limitPeriod: state.limitPeriod,
-                            ),
-                            const SizedBox(height: 20),
-                            CategoriesOfExpenseWidget(
-                              selectedCategory: state.category,
-                              onCategorySelected: (category) {
-                                context.read<ExpenseAddBloc>().add(
-                                  CategoryChanged(category),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            AmountFormFieldWidget(
-                              currency: context.locale.languageCode == 'ru'
-                                  ? 'RUB'
-                                  : 'USD',
-                              hintText: '0,00',
-                              onChanged: (amount) {
-                                context.read<ExpenseAddBloc>().add(
-                                  AmountChanged(amount),
-                                );
-                                // debugPrint('amount: $amount');
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            DescriptionFormFieldWidget(
-                              hintText: LocaleKeys.description_optional.tr(),
-                              onChanged: (description) {
-                                context.read<ExpenseAddBloc>().add(
-                                  DescriptionChanged(description),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 20),
-                            AddExpenseButton(
-                              isEnabled: state.isValid && !state.isSubmitting,
-                              isSubmitting: state.isSubmitting,
-                              onPressed: () {
-                                context.read<ExpenseAddBloc>().add(
-                                  ExpenseSubmitted(),
-                                );
-                              },
-                              child: state.isSubmitting
-                                  ? const SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              Colors.white,
-                                            ),
-                                      ),
-                                    )
-                                  : Text(
-                                      LocaleKeys.add_expense.tr(),
-                                      style: AppFonts.b6s22semiBold.copyWith(
-                                        color:
-                                            (state.isValid &&
-                                                !state.isSubmitting)
-                                            ? Colors.white
-                                            : Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurface
-                                                  .withValues(alpha: 0.5),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight:
+                      MediaQuery.of(context).size.height -
+                      kToolbarHeight -
+                      MediaQuery.of(context).padding.top -
+                      80,
+                ),
+                child: BlocConsumer<ExpenseAddBloc, ExpenseAddState>(
+                  listenWhen: (previous, current) =>
+                      previous.saveStatus != current.saveStatus,
+                  listener: (context, state) {
+                    if (state.saveStatus == SaveStatus.success) {
+                      AlertServices.show(
+                        context,
+                        title: LocaleKeys.expense_saved.tr(),
+                        type: AlertType.success,
+                      );
+                      context.pop();
+                    } else if (state.saveStatus == SaveStatus.failure) {
+                      AlertServices.show(
+                        context,
+                        title: LocaleKeys.expense_save_error.tr(),
+                        type: AlertType.error,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 16),
+                          SwitchLimitButtonWidget(
+                            selectedPeriod: state.limitPeriod,
+                            onPeriodChanged: (period) {
+                              context.read<ExpenseAddBloc>().add(
+                                LimitPeriodChanged(period),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          CurrentLimitFieldWidget(
+                            amount: state.amount,
+                            limitPeriod: state.limitPeriod,
+                          ),
+                          const SizedBox(height: 20),
+                          CategoriesOfExpenseWidget(
+                            selectedCategory: state.category,
+                            onCategorySelected: (category) {
+                              context.read<ExpenseAddBloc>().add(
+                                CategoryChanged(category),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          AmountFormFieldWidget(
+                            currency: context.locale.languageCode == 'ru'
+                                ? 'RUB'
+                                : 'USD',
+                            hintText: '0,00',
+                            onChanged: (amount) {
+                              context.read<ExpenseAddBloc>().add(
+                                AmountChanged(amount),
+                              );
+                              // debugPrint('amount: $amount');
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          DescriptionFormFieldWidget(
+                            hintText: LocaleKeys.description_optional.tr(),
+                            onChanged: (description) {
+                              context.read<ExpenseAddBloc>().add(
+                                DescriptionChanged(description),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 20),
+                          AddExpenseButton(
+                            isEnabled: state.isValid && !state.isSubmitting,
+                            isSubmitting: state.isSubmitting,
+                            onPressed: () {
+                              context.read<ExpenseAddBloc>().add(
+                                ExpenseSubmitted(),
+                              );
+                            },
+                            child: state.isSubmitting
+                                ? const SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
                                       ),
                                     ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+                                  )
+                                : Text(
+                                    LocaleKeys.add_expense.tr(),
+                                    style: AppFonts.b6s22semiBold.copyWith(
+                                      color:
+                                          (state.isValid && !state.isSubmitting)
+                                          ? Colors.white
+                                          : Theme.of(context)
+                                                .colorScheme
+                                                .onSurface
+                                                .withValues(alpha: 0.5),
+                                    ),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
