@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                context.go(MobilePages.expenseAddPage.name);
+                context.pushNamed(MobilePages.expenseAddPage.name);
               },
               child: Text(
                 LocaleKeys.expense_add_title.tr(),
