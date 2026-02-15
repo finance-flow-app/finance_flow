@@ -6,19 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AppNavigationWidget extends StatelessWidget {
-  const AppNavigationWidget({
-    super.key,
-    this.selectedIndex = -1,
-    this.bottomPadding,
-  });
+  final StatefulNavigationShell navigationShell;
+  const AppNavigationWidget({super.key, required this.navigationShell});
 
   /// -1 = none selected, 0 = home, 1 = chart, 2 = search, 3 = menu
-  final int selectedIndex;
 
-  final double? bottomPadding;
-
-  static const double _iconSize = 32;
-  static const double _dotSize = 7;
+  static const double _iconSize = 28;
+  static const double _dotSize = 6;
 
   static Widget _svgIcon(SvgGenImage asset, Color color, double size) {
     return asset.svg(
@@ -33,136 +27,164 @@ class AppNavigationWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = colorScheme.brightness == Brightness.dark;
 
-    final selectedColor = isDark ? colorScheme.onSurface : colorScheme.primary;
-    final unselectedColor = colorScheme.onSurfaceVariant.withValues(alpha: 0.7);
-    final selectedBackgroundColor = isDark
-        ? colorScheme.surfaceContainerHigh.withValues(alpha: 0.9)
-        : colorScheme.surfaceContainerLowest;
+    final selectedColor = colorScheme.primary;
+    final unselectedColor = colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
+    final backgroundColor = isDark
+        ? colorScheme.surface.withValues(alpha: 0.2)
+        : colorScheme.surface.withValues(alpha: 0.15);
 
-    final borderRadius = BorderRadius.circular(48);
+    final borderColor = isDark
+        ? colorScheme.onSurface.withValues(alpha: 0.1)
+        : colorScheme.onSurface.withValues(alpha: 0.08);
 
-    return Container(
-      margin: EdgeInsets.zero,
-      width: double.infinity,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.18),
-              blurRadius: 28,
-              offset: const Offset(0, 10),
-              spreadRadius: -6,
-            ),
-            BoxShadow(
-              color: colorScheme.shadow.withValues(alpha: 0.1),
-              blurRadius: 14,
-              offset: const Offset(0, 5),
-              spreadRadius: -2,
-            ),
-            BoxShadow(
-              color: colorScheme.primary.withValues(alpha: 0.15),
-              blurRadius: 24,
-              offset: const Offset(0, 6),
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: borderRadius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+    final borderRadius = BorderRadius.circular(40);
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          navigationShell,
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.fromLTRB(12, 20, 12, 20),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(bottom: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: ClipRRect(
                 borderRadius: borderRadius,
-                border: Border.all(
-                  color: colorScheme.primary.withValues(alpha: 0.5),
-                  width: 1.5,
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: isDark
-                      ? [
-                          Color.lerp(
-                            colorScheme.primaryContainer,
-                            colorScheme.primary,
-                            0.35,
-                          )!,
-                          colorScheme.primaryContainer,
-                          Color.lerp(
-                            colorScheme.primaryContainer,
-                            colorScheme.surface,
-                            0.3,
-                          )!,
-                        ]
-                      : [
-                          Color.lerp(
-                            colorScheme.surfaceContainerLowest,
-                            colorScheme.primaryContainer,
-                            0.5,
-                          )!,
-                          colorScheme.primaryContainer,
-                          Color.lerp(
-                            colorScheme.primaryContainer,
-                            colorScheme.primary.withValues(alpha: 0.12),
-                            0.6,
-                          )!,
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: borderRadius,
+                      border: Border.all(color: borderColor, width: 1),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          backgroundColor,
+                          backgroundColor.withValues(alpha: 0.25),
                         ],
-                  stops: const [0.0, 0.4, 1.0],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 20,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _NavItem(
+                          iconBuilder: (color, isSelected) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _svgIcon(Assets.icons.home, color, _iconSize),
+                              if (isSelected) ...[
+                                const SizedBox(height: 4),
+                                Container(
+                                  width: _dotSize,
+                                  height: _dotSize,
+                                  decoration: BoxDecoration(
+                                    color: selectedColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          isSelected: navigationShell.currentIndex == 0,
+                          selectedColor: selectedColor,
+                          unselectedColor: unselectedColor,
+                          onTap: () =>
+                              context.pushNamed(MobilePages.homePage.name),
+                        ),
+                        _NavItem(
+                          iconBuilder: (color, isSelected) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _svgIcon(
+                                Assets.icons.chartClusterBar,
+                                color,
+                                _iconSize,
+                              ),
+                              if (isSelected) ...[
+                                const SizedBox(height: 4),
+                                Container(
+                                  width: _dotSize,
+                                  height: _dotSize,
+                                  decoration: BoxDecoration(
+                                    color: selectedColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          isSelected: navigationShell.currentIndex == 1,
+                          selectedColor: selectedColor,
+                          unselectedColor: unselectedColor,
+                          onTap: () {},
+                        ),
+                        _NavItem(
+                          iconBuilder: (color, isSelected) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _svgIcon(Assets.icons.search, color, _iconSize),
+                              if (isSelected) ...[
+                                const SizedBox(height: 4),
+                                Container(
+                                  width: _dotSize,
+                                  height: _dotSize,
+                                  decoration: BoxDecoration(
+                                    color: selectedColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          isSelected: navigationShell.currentIndex == 2,
+                          selectedColor: selectedColor,
+                          unselectedColor: unselectedColor,
+                          onTap: () {},
+                        ),
+                        _NavItem(
+                          iconBuilder: (color, isSelected) => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _svgIcon(
+                                Assets.icons.researchHintonPlot,
+                                color,
+                                _iconSize,
+                              ),
+                              if (isSelected) ...[
+                                const SizedBox(height: 4),
+                                Container(
+                                  width: _dotSize,
+                                  height: _dotSize,
+                                  decoration: BoxDecoration(
+                                    color: selectedColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          isSelected: navigationShell.currentIndex == 3,
+                          selectedColor: selectedColor,
+                          unselectedColor: unselectedColor,
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _NavItem(
-                    iconBuilder: (color) =>
-                        _svgIcon(Assets.icons.home, color, _iconSize),
-                    isSelected: selectedIndex == 0,
-                    selectedColor: selectedColor,
-                    unselectedColor: unselectedColor,
-                    selectedBackgroundColor: selectedBackgroundColor,
-                    onTap: () => context.pushNamed(MobilePages.homePage.name),
-                  ),
-                  _NavItem(
-                    iconBuilder: (color) => _svgIcon(
-                      Assets.icons.chartClusterBar,
-                      color,
-                      _iconSize,
-                    ),
-                    isSelected: selectedIndex == 1,
-                    selectedColor: selectedColor,
-                    unselectedColor: unselectedColor,
-                    selectedBackgroundColor: selectedBackgroundColor,
-                    onTap: () {},
-                  ),
-                  _NavItem(
-                    iconBuilder: (color) =>
-                        _svgIcon(Assets.icons.search, color, _iconSize),
-                    isSelected: selectedIndex == 2,
-                    selectedColor: selectedColor,
-                    unselectedColor: unselectedColor,
-                    selectedBackgroundColor: selectedBackgroundColor,
-                    onTap: () {},
-                  ),
-                  _NavItem(
-                    iconBuilder: (color) => _svgIcon(
-                      Assets.icons.researchHintonPlot,
-                      color,
-                      _iconSize,
-                    ),
-                    isSelected: selectedIndex == 3,
-                    selectedColor: selectedColor,
-                    unselectedColor: unselectedColor,
-                    selectedBackgroundColor: selectedBackgroundColor,
-                    onTap: () {},
-                  ),
-                ],
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -174,65 +196,44 @@ class _NavItem extends StatelessWidget {
     required this.isSelected,
     required this.selectedColor,
     required this.unselectedColor,
-    required this.selectedBackgroundColor,
     required this.onTap,
   });
 
-  final Widget Function(Color color) iconBuilder;
+  final Widget Function(Color color, bool isSelected) iconBuilder;
   final bool isSelected;
   final Color selectedColor;
   final Color unselectedColor;
-  final Color selectedBackgroundColor;
   final VoidCallback onTap;
 
-  static const double _itemPaddingH = 24;
-  static const double _itemPaddingV = 14;
+  static const double _itemPaddingH = 20;
+  static const double _itemPaddingV = 12;
 
   @override
   Widget build(BuildContext context) {
     final color = isSelected ? selectedColor : unselectedColor;
 
-    Widget content = Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: _itemPaddingH,
-        vertical: _itemPaddingV,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          iconBuilder(color),
-          if (isSelected) ...[
-            const SizedBox(height: 6),
-            Container(
-              width: AppNavigationWidget._dotSize,
-              height: AppNavigationWidget._dotSize,
-              decoration: BoxDecoration(
-                color: selectedColor,
-                shape: BoxShape.circle,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-
-    if (isSelected) {
-      content = Container(
-        decoration: BoxDecoration(
-          color: selectedBackgroundColor,
-          borderRadius: BorderRadius.circular(999),
-        ),
-        child: content,
-      );
-    }
-
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(999),
-        child: content,
+        borderRadius: BorderRadius.circular(32),
+        splashColor: selectedColor.withValues(alpha: 0.1),
+        highlightColor: Colors.transparent,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          padding: const EdgeInsets.symmetric(
+            horizontal: _itemPaddingH,
+            vertical: _itemPaddingV,
+          ),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? selectedColor.withValues(alpha: 0.08)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(32),
+          ),
+          child: iconBuilder(color, isSelected),
+        ),
       ),
     );
   }

@@ -147,13 +147,6 @@ class _ExpenseAddContent extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: const SafeArea(
-        top: false,
-        left: false,
-        right: false,
-        bottom: false,
-        child: AppNavigationWidget(selectedIndex: -1),
-      ),
     );
   }
 }
