@@ -5,8 +5,8 @@ import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/di/service_locator.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/core/presentation/widgets/alert_servies.dart';
-import 'package:finance_flow/core/shared/app_navigation_widget.dart';
-import 'package:finance_flow/src/features/expense_add/domain/repository/expense_add_repository.dart';
+import 'package:finance_flow/core/shared/app_custom_appbar.dart';
+import 'package:finance_flow/core/shared/custom_widget_container.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/add_expense_button.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/amount_form_field.dart';
@@ -24,7 +24,7 @@ class ExpenseAddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ExpenseAddBloc(sl<ExpenseAddRepository>()),
+      create: (_) => sl<ExpenseAddBloc>(),
       child: const _ExpenseAddContent(),
     );
   }
@@ -36,12 +36,11 @@ class _ExpenseAddContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppCustomAppBar(
         title: Text(
           LocaleKeys.expense_add_title.tr(),
-          style: AppFonts.b4s26regular,
+          style: AppFonts.b5s26medium,
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: BlocConsumer<ExpenseAddBloc, ExpenseAddState>(
         listenWhen: (previous, current) =>
@@ -75,18 +74,22 @@ class _ExpenseAddContent extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               children: [
-                SwitchLimitButtonWidget(
-                  selectedPeriod: state.limitPeriod,
-                  onPeriodChanged: (period) {
-                    context.read<ExpenseAddBloc>().add(
-                      LimitPeriodChanged(period),
-                    );
-                  },
+                CustomWidgetContainer(
+                  child: SwitchLimitButtonWidget(
+                    selectedPeriod: state.limitPeriod,
+                    onPeriodChanged: (period) {
+                      context.read<ExpenseAddBloc>().add(
+                        LimitPeriodChanged(period),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 16),
-                CurrentLimitFieldWidget(
-                  amount: state.amount,
-                  limitPeriod: state.limitPeriod,
+                CustomWidgetContainer(
+                  child: CurrentLimitFieldWidget(
+                    amount: state.amount,
+                    limitPeriod: state.limitPeriod,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 CategoriesOfExpenseWidget(
@@ -98,12 +101,16 @@ class _ExpenseAddContent extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                AmountFormFieldWidget(
-                  currency: context.locale.languageCode == 'ru' ? 'RUB' : 'USD',
-                  hintText: '0,00',
-                  onChanged: (amount) {
-                    context.read<ExpenseAddBloc>().add(AmountChanged(amount));
-                  },
+                CustomWidgetContainer(
+                  child: AmountFormFieldWidget(
+                    currency: context.locale.languageCode == 'ru'
+                        ? 'RUB'
+                        : 'USD',
+                    hintText: '0,00',
+                    onChanged: (amount) {
+                      context.read<ExpenseAddBloc>().add(AmountChanged(amount));
+                    },
+                  ),
                 ),
                 const SizedBox(height: 20),
                 DescriptionFormFieldWidget(
@@ -115,32 +122,34 @@ class _ExpenseAddContent extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                AddExpenseButton(
-                  isEnabled: state.isValid && !state.isSubmitting,
-                  isSubmitting: state.isSubmitting,
-                  onPressed: () {
-                    context.read<ExpenseAddBloc>().add(ExpenseSubmitted());
-                  },
-                  child: state.isSubmitting
-                      ? const SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white,
+                CustomWidgetContainer(
+                  child: AddExpenseButton(
+                    isEnabled: state.isValid && !state.isSubmitting,
+                    isSubmitting: state.isSubmitting,
+                    onPressed: () {
+                      context.read<ExpenseAddBloc>().add(ExpenseSubmitted());
+                    },
+                    child: state.isSubmitting
+                        ? const SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : Text(
+                            LocaleKeys.add_expense.tr(),
+                            style: AppFonts.b6s22semiBold.copyWith(
+                              color: (state.isValid && !state.isSubmitting)
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.onSurface
+                                        .withValues(alpha: 0.5),
                             ),
                           ),
-                        )
-                      : Text(
-                          LocaleKeys.add_expense.tr(),
-                          style: AppFonts.b6s22semiBold.copyWith(
-                            color: (state.isValid && !state.isSubmitting)
-                                ? Colors.white
-                                : Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.5),
-                          ),
-                        ),
+                  ),
                 ),
               ],
             ),

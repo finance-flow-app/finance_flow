@@ -30,14 +30,14 @@ class AppNavigationWidget extends StatelessWidget {
     final selectedColor = colorScheme.primary;
     final unselectedColor = colorScheme.onSurfaceVariant.withValues(alpha: 0.6);
     final backgroundColor = isDark
-        ? colorScheme.surface.withValues(alpha: 0.2)
-        : colorScheme.surface.withValues(alpha: 0.15);
+        ? colorScheme.surface.withValues(alpha: 0.3)
+        : colorScheme.surface.withValues(alpha: 0.6);
 
     final borderColor = isDark
         ? colorScheme.onSurface.withValues(alpha: 0.1)
-        : colorScheme.onSurface.withValues(alpha: 0.08);
+        : colorScheme.onSurface.withValues(alpha: 0.05);
 
-    final borderRadius = BorderRadius.circular(40);
+    final borderRadius = BorderRadius.circular(30);
 
     return Scaffold(
       body: Stack(
@@ -51,7 +51,7 @@ class AppNavigationWidget extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: borderRadius,
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: borderRadius,
@@ -67,8 +67,14 @@ class AppNavigationWidget extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.1),
+                          blurRadius: 30,
+                          offset: const Offset(0, 10),
+                        ),
+                        BoxShadow(
+                          color: Colors.white.withValues(alpha: 0.2),
                           blurRadius: 20,
-                          offset: const Offset(0, 5),
+                          offset: const Offset(0, -5),
+                          spreadRadius: -5,
                         ),
                       ],
                     ),

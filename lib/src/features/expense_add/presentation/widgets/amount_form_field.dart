@@ -1,10 +1,12 @@
 import 'dart:ui' as ui;
 
 import 'package:finance_flow/core/assets/app_fonts.dart';
+import 'package:finance_flow/core/shared/custom_widget_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AmountFormFieldWidget extends StatelessWidget {
+class AmountFormFieldWidget extends StatelessWidget
+    implements LiquidGlassBorderRadiusProvider {
   final String initialValue;
   final String hintText;
   final String currency;
@@ -29,6 +31,14 @@ class AmountFormFieldWidget extends StatelessWidget {
       onChanged: onChanged,
     );
   }
+
+  /// Радиус контура виджета.
+  static const BorderRadius kLiquidGlassBorderRadius = BorderRadius.all(
+    Radius.circular(20),
+  );
+
+  @override
+  BorderRadius get liquidGlassBorderRadius => kLiquidGlassBorderRadius;
 }
 
 class _AmountFormFieldWithController extends StatefulWidget {
@@ -147,10 +157,10 @@ class _AmountFormFieldWithControllerState
               borderSide: BorderSide(
                 color: Theme.of(
                   context,
-                ).colorScheme.primary.withValues(alpha: 0.5),
-                width: 1.5,
+                ).colorScheme.onSurface.withValues(alpha: 0.15),
+                width: 1,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: AmountFormFieldWidget.kLiquidGlassBorderRadius,
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(
@@ -159,18 +169,18 @@ class _AmountFormFieldWithControllerState
                 ).colorScheme.primary.withValues(alpha: 0.5),
                 width: 1.5,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: AmountFormFieldWidget.kLiquidGlassBorderRadius,
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Theme.of(context).colorScheme.primary,
                 width: 1.5,
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: AmountFormFieldWidget.kLiquidGlassBorderRadius,
             ),
             errorBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.red, width: 1.5),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: AmountFormFieldWidget.kLiquidGlassBorderRadius,
             ),
           ),
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:finance_flow/core/shared/custom_widget_container.dart';
 
-class AddExpenseButton extends StatelessWidget {
+class AddExpenseButton extends StatelessWidget
+    implements LiquidGlassBorderRadiusProvider {
   const AddExpenseButton({
     super.key,
     required this.isEnabled,
@@ -14,6 +16,14 @@ class AddExpenseButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget child;
 
+  /// Радиус контура виджета.
+  static const BorderRadius kLiquidGlassBorderRadius = BorderRadius.all(
+    Radius.circular(38),
+  );
+
+  @override
+  BorderRadius get liquidGlassBorderRadius => kLiquidGlassBorderRadius;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -25,7 +35,7 @@ class AddExpenseButton extends StatelessWidget {
         height: 76,
         child: Material(
           color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(38),
+          borderRadius: liquidGlassBorderRadius,
           child: Center(child: child),
         ),
       );
@@ -42,7 +52,7 @@ class AddExpenseButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: isSubmitting ? null : onPressed,
-          borderRadius: BorderRadius.circular(38),
+          borderRadius: liquidGlassBorderRadius,
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -51,7 +61,7 @@ class AddExpenseButton extends StatelessWidget {
                 colors: [edgeColor, primary, centerColor, primary, edgeColor],
                 stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
               ),
-              borderRadius: BorderRadius.circular(38),
+              borderRadius: liquidGlassBorderRadius,
               boxShadow: [
                 BoxShadow(
                   color: glowColor.withValues(alpha: 0.9),

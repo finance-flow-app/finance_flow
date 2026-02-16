@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
+import 'package:finance_flow/core/shared/custom_widget_container.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
-class CurrentLimitFieldWidget extends StatelessWidget {
+class CurrentLimitFieldWidget extends StatelessWidget
+    implements LiquidGlassBorderRadiusProvider {
   const CurrentLimitFieldWidget({
     super.key,
     required this.amount,
@@ -14,6 +16,14 @@ class CurrentLimitFieldWidget extends StatelessWidget {
 
   final double amount;
   final LimitPeriod limitPeriod;
+
+  /// Радиус контура виджета.
+  static const BorderRadius kLiquidGlassBorderRadius = BorderRadius.all(
+    Radius.circular(20),
+  );
+
+  @override
+  BorderRadius get liquidGlassBorderRadius => kLiquidGlassBorderRadius;
 
   static const Map<LimitPeriod, int> _limits = {
     LimitPeriod.day: 5000,
@@ -80,7 +90,7 @@ class CurrentLimitFieldWidget extends StatelessWidget {
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: liquidGlassBorderRadius,
           boxShadow: [
             BoxShadow(
               color: colorScheme.shadow.withValues(alpha: 0.18),
@@ -104,7 +114,7 @@ class CurrentLimitFieldWidget extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: liquidGlassBorderRadius,
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -138,8 +148,8 @@ class CurrentLimitFieldWidget extends StatelessWidget {
               stops: const [0.0, 0.35, 1.0],
             ),
             border: Border.all(
-              color: colorScheme.primary.withValues(alpha: 0.5),
-              width: 1.5,
+              color: colorScheme.onSurface.withValues(alpha: 0.15),
+              width: 1,
             ),
           ),
           child: ClipRRect(

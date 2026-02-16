@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/generated/assets/assets.gen.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
+import 'package:finance_flow/core/shared/custom_widget_container.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesOfExpenseWidget extends StatelessWidget {
@@ -55,84 +56,91 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
     );
   }
 
-  static const double _borderRadius = 18;
+  /// Радиус контура виджета. Использовать тот же в [CustomWidgetContainer].
+  static const BorderRadius liquidGlassBorderRadius = BorderRadius.all(
+    Radius.circular(18),
+  );
+
+  static double get _horizontalPadding => liquidGlassBorderRadius.topLeft.x;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
-      child: SizedBox(
-        height: 44,
+    return SizedBox(
+      height: 44,
+      child: ClipRRect(
+        borderRadius: liquidGlassBorderRadius,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.only(right: _horizontalPadding),
           itemCount: _categoryKeys.length,
           separatorBuilder: (_, __) => const SizedBox(width: 8),
           itemBuilder: (context, index) {
             final categoryKey = _categoryKeys[index];
             final isSelected = categoryKey == selectedCategory;
 
-            return GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => onCategorySelected(isSelected ? null : categoryKey),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color: isSelected ? null : colorScheme.surfaceContainerHigh,
-                  gradient: isSelected
-                      ? LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color.lerp(
-                              colorScheme.primary,
-                              colorScheme.primaryContainer,
-                              0.4,
-                            )!,
-                            colorScheme.primary,
-                            Color.lerp(
-                              colorScheme.primary,
-                              colorScheme.primaryContainer,
-                              0.4,
-                            )!,
-                          ],
-                          stops: const [0.0, 0.5, 1.0],
-                        )
-                      : null,
-                  borderRadius: BorderRadius.circular(_borderRadius),
-                  border: Border.all(
-                    color: isSelected
-                        ? colorScheme.primary
-                        : colorScheme.primary.withValues(alpha: 0.5),
-                    width: 1.5,
+            return CustomWidgetContainer(
+              borderRadius: liquidGlassBorderRadius,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () =>
+                    onCategorySelected(isSelected ? null : categoryKey),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 10,
                   ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    _iconForCategoryKey(
-                      categoryKey,
-                      size: 18,
-                      color: isSelected
-                          ? colorScheme.onPrimary
-                          : colorScheme.onSurfaceVariant,
+                  decoration: BoxDecoration(
+                    color: isSelected ? null : colorScheme.surfaceContainerHigh,
+                    gradient: isSelected
+                        ? LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color.lerp(
+                                colorScheme.primary,
+                                colorScheme.primaryContainer,
+                                0.4,
+                              )!,
+                              colorScheme.primary,
+                              Color.lerp(
+                                colorScheme.primary,
+                                colorScheme.primaryContainer,
+                                0.4,
+                              )!,
+                            ],
+                            stops: const [0.0, 0.5, 1.0],
+                          )
+                        : null,
+                    borderRadius: liquidGlassBorderRadius,
+                    border: Border.all(
+                      color: colorScheme.onSurface.withValues(alpha: 0.15),
+                      width: 1,
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      categoryKey.tr(),
-                      style: AppFonts.b5s14medium.copyWith(
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _iconForCategoryKey(
+                        categoryKey,
+                        size: 18,
                         color: isSelected
                             ? colorScheme.onPrimary
                             : colorScheme.onSurfaceVariant,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 6),
+                      Text(
+                        categoryKey.tr(),
+                        style: AppFonts.b5s14medium.copyWith(
+                          color: isSelected
+                              ? colorScheme.onPrimary
+                              : colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

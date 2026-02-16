@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
 import 'package:finance_flow/core/generated/assets/assets.gen.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
+import 'package:finance_flow/core/shared/custom_widget_container.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:flutter/material.dart';
 
-class SwitchLimitButtonWidget extends StatelessWidget {
+class SwitchLimitButtonWidget extends StatelessWidget
+    implements LiquidGlassBorderRadiusProvider {
   const SwitchLimitButtonWidget({
     super.key,
     required this.selectedPeriod,
@@ -14,6 +16,14 @@ class SwitchLimitButtonWidget extends StatelessWidget {
 
   final LimitPeriod selectedPeriod;
   final ValueChanged<LimitPeriod> onPeriodChanged;
+
+  /// Радиус контура виджета.
+  static const BorderRadius kLiquidGlassBorderRadius = BorderRadius.all(
+    Radius.circular(16),
+  );
+
+  @override
+  BorderRadius get liquidGlassBorderRadius => kLiquidGlassBorderRadius;
 
   static const List<LimitPeriod> _periods = LimitPeriod.values;
 
@@ -33,10 +43,10 @@ class SwitchLimitButtonWidget extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerHigh,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: liquidGlassBorderRadius,
         border: Border.all(
-          color: colorScheme.primary.withValues(alpha: 0.5),
-          width: 1.5,
+          color: colorScheme.onSurface.withValues(alpha: 0.15),
+          width: 1,
         ),
       ),
       child: Row(
