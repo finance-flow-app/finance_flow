@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:finance_flow/core/generated/assets/assets.gen.dart';
-import 'package:finance_flow/core/router/app_router.dart';
+import 'package:finance_flow/core/router/page_transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,6 +20,16 @@ class AppNavigationWidget extends StatelessWidget {
       height: size,
       colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
     );
+  }
+
+  void _onTap(int index) {
+    final isReselect = navigationShell.currentIndex == index;
+
+    if (isReselect) {
+      setDismissDown(); // <-- важно: reset ветки должен закрывать модалки вниз
+    }
+
+    navigationShell.goBranch(index, initialLocation: isReselect);
   }
 
   @override
@@ -103,8 +113,7 @@ class AppNavigationWidget extends StatelessWidget {
                           isSelected: navigationShell.currentIndex == 0,
                           selectedColor: selectedColor,
                           unselectedColor: unselectedColor,
-                          onTap: () =>
-                              context.pushNamed(MobilePages.homePage.name),
+                          onTap: () => _onTap(0),
                         ),
                         _NavItem(
                           iconBuilder: (color, isSelected) => Column(
@@ -131,7 +140,7 @@ class AppNavigationWidget extends StatelessWidget {
                           isSelected: navigationShell.currentIndex == 1,
                           selectedColor: selectedColor,
                           unselectedColor: unselectedColor,
-                          onTap: () {},
+                          onTap: () => _onTap(1),
                         ),
                         _NavItem(
                           iconBuilder: (color, isSelected) => Column(
@@ -154,7 +163,7 @@ class AppNavigationWidget extends StatelessWidget {
                           isSelected: navigationShell.currentIndex == 2,
                           selectedColor: selectedColor,
                           unselectedColor: unselectedColor,
-                          onTap: () {},
+                          onTap: () => _onTap(2),
                         ),
                         _NavItem(
                           iconBuilder: (color, isSelected) => Column(
@@ -181,7 +190,7 @@ class AppNavigationWidget extends StatelessWidget {
                           isSelected: navigationShell.currentIndex == 3,
                           selectedColor: selectedColor,
                           unselectedColor: unselectedColor,
-                          onTap: () {},
+                          onTap: () => _onTap(3),
                         ),
                       ],
                     ),

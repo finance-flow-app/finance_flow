@@ -1,6 +1,8 @@
 import 'dart:ui';
 
+import 'package:finance_flow/core/router/page_transitions.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// AppBar в стиле LiquidGlass (блюр, градиент, скругление снизу).
 class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,6 +11,7 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.blurSigma = 3,
     this.bottomRadius = 24,
+    this.automaticallyImplyLeading = true,
   });
 
   final Widget title;
@@ -18,6 +21,9 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Радиус скругления нижних углов.
   final double bottomRadius;
+
+  /// Показывать ли кнопку «назад». На корневых экранах вкладок — false.
+  final bool automaticallyImplyLeading;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -38,6 +44,16 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       title: title,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      leading: automaticallyImplyLeading
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new),
+              onPressed: () {
+                setDismissRight();
+                context.pop();
+              },
+            )
+          : null,
       backgroundColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
