@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/router/app_router.dart';
+import 'package:finance_flow/core/theme/app_backgroud.dart';
 import 'package:finance_flow/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,9 @@ class FinanceFlowApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
+      builder: (context, child) {
+        return AppBackground(child: child ?? const SizedBox.shrink());
+      },
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

@@ -1,3 +1,4 @@
+import 'package:finance_flow/core/theme/app_backgroud.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,8 +19,8 @@ const Curve _popRightCurve = Cubic(0.25, 0.10, 0.25, 1.00); // iOS back-ish
 CustomTransitionPage<T> bottomUpPage<T>({
   required LocalKey key,
   required Widget child,
-  Duration transitionDuration = const Duration(milliseconds: 300),
-  Duration reverseTransitionDuration = const Duration(milliseconds: 300),
+  Duration transitionDuration = const Duration(milliseconds: 250),
+  Duration reverseTransitionDuration = const Duration(milliseconds: 200),
 }) => CustomTransitionPage<T>(
   key: key,
   child: child,
@@ -54,13 +55,18 @@ CustomTransitionPage<T> bottomUpPage<T>({
     // - при push: лёгкий, быстро заканчивается (не мешает “считать” движение)
     // - при pop down: можно чуть приглушить
     // - при pop right: без fade
-    final double fadeBegin = (isReverse && isRightPop)
-        ? 1.0
-        : 0.94; // было 0.92 — сделаем мягче
+    // При push новая страница сразу непрозрачная (1.0), чтобы предыдущая не просвечивала.
+    final double fadeBegin = isReverse ? (isRightPop ? 1.0 : 0.94) : 1.0;
     final opacityAnim = Tween<double>(begin: fadeBegin, end: 1.0).animate(
       CurvedAnimation(
         parent: animation,
-        curve: const Interval(0.0, 0.45, curve: Curves.easeOut),
+        curve: isReverse
+            ? Interval(
+                0.0,
+                0.55,
+                curve: isRightPop ? Curves.linear : Curves.easeIn,
+              )
+            : Curves.linear,
         reverseCurve: Interval(
           0.0,
           0.55,
@@ -78,12 +84,21 @@ CustomTransitionPage<T> bottomUpPage<T>({
       ),
     );
 
-    return SlideTransition(
-      position: slideAnim,
-      child: FadeTransition(
-        opacity: opacityAnim,
-        child: ScaleTransition(scale: scaleAnim, child: child),
-      ),
+    // Под новой страницей — тот же фон, что и в приложении (градиент + glow).
+    // Так: (1) с первого кадра перекрывается homepage, (2) после анимации
+    // фон новой страницы совпадает с главной — без «другой темы».
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        const AppBackground(child: SizedBox.shrink()),
+        SlideTransition(
+          position: slideAnim,
+          child: FadeTransition(
+            opacity: opacityAnim,
+            child: ScaleTransition(scale: scaleAnim, child: child),
+          ),
+        ),
+      ],
     );
   },
 );
