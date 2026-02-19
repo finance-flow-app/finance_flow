@@ -8,6 +8,7 @@ import 'package:finance_flow/src/features/expense_add/presentation/pages/expense
 import 'package:finance_flow/src/features/home/presentation/pages/home_page.dart';
 import 'package:finance_flow/src/features/search/presentation/pages/search_page.dart';
 import 'package:finance_flow/src/features/settings/presentation/pages/settings_page.dart';
+import 'package:finance_flow/src/features/theme/presentation/pages/theme_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -93,6 +94,16 @@ class AppRouter {
                 name: MobilePages.settingsPage.name,
                 pageBuilder: (context, state) =>
                     NoTransitionPage(child: const SettingsPage()),
+                routes: [
+                  GoRoute(
+                    path: MobilePages.themePage.path,
+                    name: MobilePages.themePage.name,
+                    pageBuilder: (context, state) => bottomUpPage(
+                      key: state.pageKey,
+                      child: const ThemePage(),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -109,7 +120,8 @@ enum MobilePages {
   analyticsPage,
   mockAnalyticsPage,
   searchPage,
-  settingsPage;
+  settingsPage,
+  themePage;
 
   static MobilePages? fromName(String? name) {
     return MobilePages.values.firstWhereOrNull(

@@ -20,6 +20,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/Apple.svg');
 
+  /// File path: assets/icons/BrightnessContrast.svg
+  SvgGenImage get brightnessContrast =>
+      const SvgGenImage('assets/icons/BrightnessContrast.svg');
+
   /// File path: assets/icons/Calendar.svg
   SvgGenImage get calendar => const SvgGenImage('assets/icons/Calendar.svg');
 
@@ -58,11 +62,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/Home.svg');
 
+  /// File path: assets/icons/Light.svg
+  SvgGenImage get light => const SvgGenImage('assets/icons/Light.svg');
+
   /// File path: assets/icons/List.svg
   SvgGenImage get list => const SvgGenImage('assets/icons/List.svg');
 
   /// File path: assets/icons/Money.svg
   SvgGenImage get money => const SvgGenImage('assets/icons/Money.svg');
+
+  /// File path: assets/icons/Moon.svg
+  SvgGenImage get moon => const SvgGenImage('assets/icons/Moon.svg');
 
   /// File path: assets/icons/ResearchHintonPlot.svg
   SvgGenImage get researchHintonPlot =>
@@ -91,6 +101,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     apple,
+    brightnessContrast,
     calendar,
     catalog,
     chartClusterBar,
@@ -102,8 +113,10 @@ class $AssetsIconsGen {
     finance,
     healthCross,
     home,
+    light,
     list,
     money,
+    moon,
     researchHintonPlot,
     restaurant,
     search,
