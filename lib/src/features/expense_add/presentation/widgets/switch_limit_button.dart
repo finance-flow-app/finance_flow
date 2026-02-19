@@ -42,10 +42,10 @@ class SwitchLimitButtonWidget extends StatelessWidget
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHigh,
+        color: Colors.transparent,
         borderRadius: liquidGlassBorderRadius,
         border: Border.all(
-          color: colorScheme.onSurface.withValues(alpha: 0.15),
+          color: colorScheme.onSurface.withValues(alpha: 0.12),
           width: 1,
         ),
       ),

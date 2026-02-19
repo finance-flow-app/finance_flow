@@ -152,12 +152,12 @@ class _AmountFormFieldWithControllerState
               bottom: 32,
             ),
             filled: true,
-            fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+            fillColor: Colors.transparent,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Theme.of(
                   context,
-                ).colorScheme.onSurface.withValues(alpha: 0.15),
+                ).colorScheme.onSurface.withValues(alpha: 0.12),
                 width: 1,
               ),
               borderRadius: AmountFormFieldWidget.kLiquidGlassBorderRadius,
@@ -166,8 +166,8 @@ class _AmountFormFieldWithControllerState
               borderSide: BorderSide(
                 color: Theme.of(
                   context,
-                ).colorScheme.primary.withValues(alpha: 0.5),
-                width: 1.5,
+                ).colorScheme.onSurface.withValues(alpha: 0.12),
+                width: 1,
               ),
               borderRadius: AmountFormFieldWidget.kLiquidGlassBorderRadius,
             ),

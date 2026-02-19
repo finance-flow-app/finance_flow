@@ -79,10 +79,11 @@ class _DescriptionFormFieldWidgetState
                 vertical: 24,
               ),
               filled: true,
-              fillColor: colorScheme.surfaceContainerHigh,
+              // Прозрачная заливка, чтобы был виден liquidGlass от CustomWidgetContainer.
+              fillColor: Colors.transparent,
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: colorScheme.primary.withValues(alpha: 0.15),
+                  color: colorScheme.onSurface.withValues(alpha: 0.12),
                   width: 1,
                 ),
                 borderRadius:
@@ -90,7 +91,7 @@ class _DescriptionFormFieldWidgetState
               ),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: colorScheme.onSurface.withValues(alpha: 0.15),
+                  color: colorScheme.onSurface.withValues(alpha: 0.12),
                   width: 1,
                 ),
                 borderRadius:

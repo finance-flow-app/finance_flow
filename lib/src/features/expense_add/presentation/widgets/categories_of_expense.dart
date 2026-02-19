@@ -76,7 +76,7 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.only(right: _horizontalPadding),
           itemCount: _categoryKeys.length,
-          separatorBuilder: (_, __) => const SizedBox(width: 8),
+          separatorBuilder: (_, __) => const SizedBox(width: 4),
           itemBuilder: (context, index) {
             final categoryKey = _categoryKeys[index];
             final isSelected = categoryKey == selectedCategory;
@@ -93,7 +93,7 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
                     vertical: 10,
                   ),
                   decoration: BoxDecoration(
-                    color: isSelected ? null : colorScheme.surfaceContainerHigh,
+                    color: isSelected ? null : Colors.transparent,
                     gradient: isSelected
                         ? LinearGradient(
                             begin: Alignment.centerLeft,
@@ -116,7 +116,7 @@ class CategoriesOfExpenseWidget extends StatelessWidget {
                         : null,
                     borderRadius: liquidGlassBorderRadius,
                     border: Border.all(
-                      color: colorScheme.onSurface.withValues(alpha: 0.15),
+                      color: colorScheme.onSurface.withValues(alpha: 0.12),
                       width: 1,
                     ),
                   ),
