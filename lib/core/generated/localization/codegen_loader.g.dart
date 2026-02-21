@@ -64,6 +64,18 @@ class CodegenLoader extends AssetLoader{
     "today": "Сегодня",
     "yesterday": "Вчера",
     "limit_exceeded_warning": "Вы превысили лимит"
+  },
+  "expenses_limits_title": "Лимиты расходов",
+  "expenses_limits": {
+    "total_limit": "Общий лимит",
+    "current_limit_for_day": "Текущий лимит за день",
+    "current_limit_for_week": "Текущий лимит за неделю",
+    "current_limit_for_month": "Текущий лимит за месяц",
+    "limits_by_categories": "Лимиты по категориям",
+    "cancel": "Отмена",
+    "apply": "Применить",
+    "limits_saved": "Лимиты сохранены",
+    "limits_save_error": "Не удалось сохранить лимиты. Попробуйте ещё раз."
   }
 };
 static const Map<String,dynamic> _en = {
@@ -116,6 +128,18 @@ static const Map<String,dynamic> _en = {
     "today": "Today",
     "yesterday": "Yesterday",
     "limit_exceeded_warning": "You have exceeded the limit"
+  },
+  "expenses_limits_title": "Expenses Limits",
+  "expenses_limits": {
+    "total_limit": "Total limit",
+    "current_limit_for_day": "Current limit for day",
+    "current_limit_for_week": "Current limit for week",
+    "current_limit_for_month": "Current limit for month",
+    "limits_by_categories": "Limits by categories",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "limits_saved": "Limits saved",
+    "limits_save_error": "Failed to save limits. Please try again."
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": _ru, "en": _en};

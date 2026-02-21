@@ -59,7 +59,9 @@ class SettingsPage extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(MobilePages.expensesLimitsPage.name);
+                  },
                   borderRadius: BorderRadius.circular(20),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

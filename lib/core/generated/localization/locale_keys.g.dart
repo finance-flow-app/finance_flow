@@ -48,5 +48,16 @@ abstract class  LocaleKeys {
   static const expenses_history_yesterday = 'expenses_history.yesterday';
   static const expenses_history_limit_exceeded_warning = 'expenses_history.limit_exceeded_warning';
   static const expenses_history = 'expenses_history';
+  static const expenses_limits_title = 'expenses_limits_title';
+  static const expenses_limits_total_limit = 'expenses_limits.total_limit';
+  static const expenses_limits_current_limit_for_day = 'expenses_limits.current_limit_for_day';
+  static const expenses_limits_current_limit_for_week = 'expenses_limits.current_limit_for_week';
+  static const expenses_limits_current_limit_for_month = 'expenses_limits.current_limit_for_month';
+  static const expenses_limits_limits_by_categories = 'expenses_limits.limits_by_categories';
+  static const expenses_limits_cancel = 'expenses_limits.cancel';
+  static const expenses_limits_apply = 'expenses_limits.apply';
+  static const expenses_limits_limits_saved = 'expenses_limits.limits_saved';
+  static const expenses_limits_limits_save_error = 'expenses_limits.limits_save_error';
+  static const expenses_limits = 'expenses_limits';
 
 }

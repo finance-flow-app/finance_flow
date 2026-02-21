@@ -20,6 +20,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/Apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/Apple.svg');
 
+  /// File path: assets/icons/ArrowUpRight.svg
+  SvgGenImage get arrowUpRight =>
+      const SvgGenImage('assets/icons/ArrowUpRight.svg');
+
   /// File path: assets/icons/BrightnessContrast.svg
   SvgGenImage get brightnessContrast =>
       const SvgGenImage('assets/icons/BrightnessContrast.svg');
@@ -101,6 +105,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     apple,
+    arrowUpRight,
     brightnessContrast,
     calendar,
     catalog,

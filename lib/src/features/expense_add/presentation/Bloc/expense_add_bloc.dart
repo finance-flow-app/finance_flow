@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/src/features/expense_add/domain/entity/expense_add_entity.dart';
+import 'package:finance_flow/src/features/expense_add/domain/entity/expense_add_limits_entity.dart';
 import 'package:finance_flow/src/features/expense_add/domain/repository/expense_add_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'expense_add_event.dart';
 part 'espense_add_state.dart';
 
 class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
-  ExpenseAddBloc(this._repository) : super(const ExpenseAddState()) {
+  ExpenseAddBloc(this._repository, this._sharedPreferences)
+    : super(const ExpenseAddState()) {
     on<AmountChanged>(_onAmountChanged);
     on<DescriptionChanged>(_onDescriptionChanged);
     on<CategoryChanged>(_onCategoryChanged);
@@ -21,6 +24,10 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
   }
 
   final ExpenseAddRepository _repository;
+  final SharedPreferences _sharedPreferences;
+
+  String get _languageCode =>
+      _sharedPreferences.getString('language_code') ?? 'en';
 
   void _onAmountChanged(AmountChanged event, Emitter<ExpenseAddState> emit) {
     emit(state.copyWith(amount: event.amount));
@@ -72,10 +79,9 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
 
   Future<void> _load(Emitter<ExpenseAddState> emit) async {
     emit(state.copyWith(isLoading: true));
-    await Future.delayed(const Duration(milliseconds: 1)); // имитация загрузки
     try {
-      // загрузка данных (лимиты, категории и т.п.)
-      emit(state.copyWith(isLoading: false));
+      final limits = await _repository.loadLimits(_languageCode);
+      emit(state.copyWith(isLoading: false, limits: limits));
     } catch (_) {
       emit(state.copyWith(isLoading: false));
     }
@@ -93,7 +99,6 @@ class ExpenseAddBloc extends Bloc<ExpenseAddEvent, ExpenseAddState> {
     Emitter<ExpenseAddState> emit,
   ) async {
     try {
-      // Если в момент pull-to-refresh уже идёт загрузка — просто дождёмся её.
       if (state.isLoading) {
         await stream.firstWhere((s) => !s.isLoading);
       } else {

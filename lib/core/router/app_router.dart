@@ -5,6 +5,7 @@ import 'package:finance_flow/core/shared/app_navigation_widget.dart';
 import 'package:finance_flow/src/features/analytics/presentation/pages/analytics_page.dart';
 import 'package:finance_flow/src/features/analytics/presentation/pages/mock_page.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/pages/expense_add.dart';
+import 'package:finance_flow/src/features/expenses_limits/presentation/pages/expenses_limits_page.dart';
 import 'package:finance_flow/src/features/home/presentation/pages/home_page.dart';
 import 'package:finance_flow/src/features/search/presentation/pages/search_page.dart';
 import 'package:finance_flow/src/features/settings/presentation/pages/settings_page.dart';
@@ -103,6 +104,14 @@ class AppRouter {
                       child: const ThemePage(),
                     ),
                   ),
+                  GoRoute(
+                    path: MobilePages.expensesLimitsPage.path,
+                    name: MobilePages.expensesLimitsPage.name,
+                    pageBuilder: (context, state) => bottomUpPage(
+                      key: state.pageKey,
+                      child: const ExpensesLimitsPage(),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -121,7 +130,8 @@ enum MobilePages {
   mockAnalyticsPage,
   searchPage,
   settingsPage,
-  themePage;
+  themePage,
+  expensesLimitsPage;
 
   static MobilePages? fromName(String? name) {
     return MobilePages.values.firstWhereOrNull(

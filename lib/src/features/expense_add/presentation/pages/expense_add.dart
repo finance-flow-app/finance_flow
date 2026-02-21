@@ -7,13 +7,14 @@ import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/core/presentation/widgets/alert_servies.dart';
 import 'package:finance_flow/core/shared/app_custom_appbar.dart';
 import 'package:finance_flow/core/shared/custom_widget_container.dart';
+import 'package:finance_flow/core/shared/limit_card_widget.dart';
+import 'package:finance_flow/core/shared/period_segment_switcher.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/Bloc/expense_add_bloc.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/add_expense_button.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/amount_form_field.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/categories_of_expense.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/current_limit_field.dart';
 import 'package:finance_flow/src/features/expense_add/presentation/widgets/description_form_field.dart';
-import 'package:finance_flow/src/features/expense_add/presentation/widgets/switch_limit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,11 @@ class ExpenseAddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<ExpenseAddBloc>(),
+      create: (_) {
+        final bloc = sl<ExpenseAddBloc>();
+        bloc.add(ExpenseAddInitial());
+        return bloc;
+      },
       child: const _ExpenseAddContent(),
     );
   }
@@ -74,21 +79,35 @@ class _ExpenseAddContent extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               children: [
-                CustomWidgetContainer(
-                  child: SwitchLimitButtonWidget(
-                    selectedPeriod: state.limitPeriod,
-                    onPeriodChanged: (period) {
+                PeriodSegmentSwitcher<LimitPeriod>(
+                  items: LimitPeriod.values,
+                  selectedValue: state.limitPeriod,
+                  labelBuilder: (p) => switch (p) {
+                    LimitPeriod.day => LocaleKeys.limit_period_day.tr(),
+                    LimitPeriod.week => LocaleKeys.limit_period_week.tr(),
+                    LimitPeriod.month => LocaleKeys.limit_period_month.tr(),
+                  },
+                  onValueChanged: (period) {
+                    final current = state.limitPeriod;
+                    if (period == current && period != LimitPeriod.day) {
+                      context.read<ExpenseAddBloc>().add(
+                        LimitPeriodChanged(LimitPeriod.day),
+                      );
+                    } else {
                       context.read<ExpenseAddBloc>().add(
                         LimitPeriodChanged(period),
                       );
-                    },
-                  ),
+                    }
+                  },
                 ),
                 const SizedBox(height: 16),
                 CustomWidgetContainer(
+                  borderRadius: LimitCardWidget.kLiquidGlassBorderRadius,
                   child: CurrentLimitFieldWidget(
                     amount: state.amount,
                     limitPeriod: state.limitPeriod,
+                    limits: state.limits,
+                    selectedCategory: state.category,
                   ),
                 ),
                 const SizedBox(height: 20),

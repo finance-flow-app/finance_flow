@@ -6,6 +6,15 @@ enum SaveStatus { initial, success, failure }
 
 enum LimitPeriod { day, week, month }
 
+/// Множитель периода: день = 1, неделя = 7, месяц = 30.
+int limitPeriodMultiplier(LimitPeriod period) {
+  return switch (period) {
+    LimitPeriod.day => 1,
+    LimitPeriod.week => 7,
+    LimitPeriod.month => 30,
+  };
+}
+
 class ExpenseAddState extends Equatable {
   const ExpenseAddState({
     this.isLoading = false,
@@ -15,6 +24,7 @@ class ExpenseAddState extends Equatable {
     this.description,
     this.category,
     this.limitPeriod = LimitPeriod.day,
+    this.limits,
   });
 
   final bool isLoading;
@@ -24,6 +34,7 @@ class ExpenseAddState extends Equatable {
   final String? description;
   final String? category;
   final LimitPeriod limitPeriod;
+  final ExpenseAddLimitsEntity? limits;
 
   bool get isValid => amount > 0;
 
@@ -35,6 +46,7 @@ class ExpenseAddState extends Equatable {
     String? description,
     Object? category = _unchanged,
     LimitPeriod? limitPeriod,
+    ExpenseAddLimitsEntity? limits,
   }) {
     return ExpenseAddState(
       isLoading: isLoading ?? this.isLoading,
@@ -44,6 +56,7 @@ class ExpenseAddState extends Equatable {
       description: description ?? this.description,
       category: category == _unchanged ? this.category : category as String?,
       limitPeriod: limitPeriod ?? this.limitPeriod,
+      limits: limits ?? this.limits,
     );
   }
 
@@ -56,5 +69,6 @@ class ExpenseAddState extends Equatable {
     description,
     category,
     limitPeriod,
+    limits,
   ];
 }

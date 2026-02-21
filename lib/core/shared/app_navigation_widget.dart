@@ -14,6 +14,11 @@ class AppNavigationWidget extends StatelessWidget {
   static const double _iconSize = 28;
   static const double _dotSize = 6;
 
+  /// Высота нижней панели (margin + padding + иконки). Страницы с прокруткой
+  /// добавляют этот отступ в padding снизу у ScrollView, чтобы при прокрутке
+  /// последний виджет не уходил под навбар; экраны без прокрутки не отступают.
+  static const double bottomNavBarReservedHeight = 60;
+
   static Widget _svgIcon(SvgGenImage asset, Color color, double size) {
     return asset.svg(
       width: size,

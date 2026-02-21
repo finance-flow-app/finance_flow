@@ -48,5 +48,17 @@
     "today": "Сегодня",
     "yesterday": "Вчера",
     "limit_exceeded_warning": "Вы превысили лимит"
+  },
+  "expenses_limits_title": "Лимиты расходов",
+  "expenses_limits": {
+    "total_limit": "Общий лимит",
+    "current_limit_for_day": "Текущий лимит за день",
+    "current_limit_for_week": "Текущий лимит за неделю",
+    "current_limit_for_month": "Текущий лимит за месяц",
+    "limits_by_categories": "Лимиты по категориям",
+    "cancel": "Отмена",
+    "apply": "Применить",
+    "limits_saved": "Лимиты сохранены",
+    "limits_save_error": "Не удалось сохранить лимиты. Попробуйте ещё раз."
   }
 }
