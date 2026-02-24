@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:finance_flow/src/features/expenses_limits/domain/repository/expenses_limits_repository.dart';
@@ -16,6 +18,7 @@ class ExpensesLimitsBloc
   }) : _repo = repo,
        super(ExpensesLimitsState.initial(languageCode)) {
     on<LoadLimits>(_onLoadLimits);
+    on<RefreshLimitsRequested>(_onRefreshLimitsRequested);
     on<PeriodChanged>(_onPeriodChanged);
     on<CategoryLimitChanged>(_onCategoryLimitChanged);
     on<RevertLimits>(_onRevertLimits);
@@ -42,6 +45,20 @@ class ExpensesLimitsBloc
           baselineSelectedPeriod: selectedPeriod,
         ),
       );
+    }
+  }
+
+  Future<void> _onRefreshLimitsRequested(
+    RefreshLimitsRequested event,
+    Emitter<ExpensesLimitsState> emit,
+  ) async {
+    try {
+      await _onLoadLimits(LoadLimits(), emit);
+      if (!event.completer.isCompleted) event.completer.complete();
+    } catch (e, st) {
+      if (!event.completer.isCompleted) {
+        event.completer.completeError(e, st);
+      }
     }
   }
 

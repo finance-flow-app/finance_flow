@@ -60,5 +60,23 @@
     "apply": "Применить",
     "limits_saved": "Лимиты сохранены",
     "limits_save_error": "Не удалось сохранить лимиты. Попробуйте ещё раз."
+  },
+  "manage_categories_title": "Управление категориями",
+  "manage_categories_tabs": {
+    "active": "Активные",
+    "archived": "Архив",
+    "auto": "Авто"
+  },
+  "manage_categories_groups": {
+    "all": "Все",
+    "essentials": "Необходимое",
+    "lifestyle": "Образ жизни",
+    "work": "Работа",
+    "subscriptions": "Подписки",
+    "custom": "Свои"
+  },
+  "manage_categories_footer": {
+    "cancel": "Отмена",
+    "save_changes": "Сохранить"
   }
 }

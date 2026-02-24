@@ -17,6 +17,9 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Add.svg
+  SvgGenImage get add => const SvgGenImage('assets/icons/Add.svg');
+
   /// File path: assets/icons/Apple.svg
   SvgGenImage get apple => const SvgGenImage('assets/icons/Apple.svg');
 
@@ -72,11 +75,18 @@ class $AssetsIconsGen {
   /// File path: assets/icons/List.svg
   SvgGenImage get list => const SvgGenImage('assets/icons/List.svg');
 
+  /// File path: assets/icons/Menu.svg
+  SvgGenImage get menu => const SvgGenImage('assets/icons/Menu.svg');
+
   /// File path: assets/icons/Money.svg
   SvgGenImage get money => const SvgGenImage('assets/icons/Money.svg');
 
   /// File path: assets/icons/Moon.svg
   SvgGenImage get moon => const SvgGenImage('assets/icons/Moon.svg');
+
+  /// File path: assets/icons/OverflowMenuHorizontal.svg
+  SvgGenImage get overflowMenuHorizontal =>
+      const SvgGenImage('assets/icons/OverflowMenuHorizontal.svg');
 
   /// File path: assets/icons/ResearchHintonPlot.svg
   SvgGenImage get researchHintonPlot =>
@@ -104,6 +114,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+    add,
     apple,
     arrowUpRight,
     brightnessContrast,
@@ -120,8 +131,10 @@ class $AssetsIconsGen {
     home,
     light,
     list,
+    menu,
     money,
     moon,
+    overflowMenuHorizontal,
     researchHintonPlot,
     restaurant,
     search,

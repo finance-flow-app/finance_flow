@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
@@ -42,111 +44,121 @@ class _ExpensesLimitsContent extends StatelessWidget {
       ),
       body: BlocBuilder<ExpensesLimitsBloc, ExpensesLimitsState>(
         builder: (context, state) {
-          return GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            behavior: HitTestBehavior.opaque,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                top: 16,
-                bottom: 16 + AppNavigationWidget.bottomNavBarReservedHeight,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: PeriodSegmentSwitcher<TotalLimitPeriod>(
-                      items: TotalLimitPeriod.values,
-                      selectedValue: state.selectedPeriod,
-                      labelBuilder: (p) => switch (p) {
-                        TotalLimitPeriod.day =>
-                          LocaleKeys.limit_period_day.tr(),
-                        TotalLimitPeriod.week =>
-                          LocaleKeys.limit_period_week.tr(),
-                        TotalLimitPeriod.month =>
-                          LocaleKeys.limit_period_month.tr(),
-                      },
-                      onValueChanged: (period) {
-                        FocusManager.instance.primaryFocus?.unfocus();
+          return RefreshIndicator(
+            onRefresh: () {
+              final completer = Completer<void>();
+              context.read<ExpensesLimitsBloc>().add(
+                RefreshLimitsRequested(completer),
+              );
+              return completer.future;
+            },
+            child: GestureDetector(
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              behavior: HitTestBehavior.opaque,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(
+                  top: 16,
+                  bottom: 16 + AppNavigationWidget.bottomNavBarReservedHeight,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: PeriodSegmentSwitcher<TotalLimitPeriod>(
+                        items: TotalLimitPeriod.values,
+                        selectedValue: state.selectedPeriod,
+                        labelBuilder: (p) => switch (p) {
+                          TotalLimitPeriod.day =>
+                            LocaleKeys.limit_period_day.tr(),
+                          TotalLimitPeriod.week =>
+                            LocaleKeys.limit_period_week.tr(),
+                          TotalLimitPeriod.month =>
+                            LocaleKeys.limit_period_month.tr(),
+                        },
+                        onValueChanged: (period) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          context.read<ExpensesLimitsBloc>().add(
+                            PeriodChanged(period),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TotalLimitCardWidget(
+                      amount:
+                          state.totalLimitAmount *
+                          state.selectedPeriod.periodFactor,
+                      period: state.selectedPeriod,
+                    ),
+                    CategoryLimitListWidget(
+                      categoryLimits: state.categoryLimits,
+                      selectedPeriod: state.selectedPeriod,
+                      onCategoryLimitChanged: (category, value) {
                         context.read<ExpensesLimitsBloc>().add(
-                          PeriodChanged(period),
+                          CategoryLimitChanged(category, value),
                         );
                       },
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  TotalLimitCardWidget(
-                    amount:
-                        state.totalLimitAmount *
-                        state.selectedPeriod.periodFactor,
-                    period: state.selectedPeriod,
-                  ),
-                  CategoryLimitListWidget(
-                    categoryLimits: state.categoryLimits,
-                    selectedPeriod: state.selectedPeriod,
-                    onCategoryLimitChanged: (category, value) {
-                      context.read<ExpensesLimitsBloc>().add(
-                        CategoryLimitChanged(category, value),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 22),
-                  StickyFooterButtonWidget(
-                    hasChanges: state.hasUnsavedChanges,
-                    onCancel: () async {
-                      final repo = sl<ExpensesLimitsRepository>();
-                      final saved = await repo.load();
-                      if (!context.mounted) return;
-                      if (saved != null) {
-                        final limits = <CategoryForLimit, double>{};
-                        for (final e in CategoryForLimit.values) {
-                          final v = saved.categoryLimits[e.name];
-                          if (v != null) limits[e] = v;
+                    const SizedBox(height: 22),
+                    StickyFooterButtonWidget(
+                      hasChanges: state.hasUnsavedChanges,
+                      onCancel: () async {
+                        final repo = sl<ExpensesLimitsRepository>();
+                        final saved = await repo.load();
+                        if (!context.mounted) return;
+                        if (saved != null) {
+                          final limits = <CategoryForLimit, double>{};
+                          for (final e in CategoryForLimit.values) {
+                            final v = saved.categoryLimits[e.name];
+                            if (v != null) limits[e] = v;
+                          }
+                          final period =
+                              TotalLimitPeriod.values.firstWhereOrNull(
+                                (p) => p.name == saved.selectedPeriod,
+                              ) ??
+                              TotalLimitPeriod.day;
+                          context.read<ExpensesLimitsBloc>().add(
+                            RevertLimits(
+                              categoryLimits: limits,
+                              selectedPeriod: period,
+                            ),
+                          );
                         }
-                        final period =
-                            TotalLimitPeriod.values.firstWhereOrNull(
-                              (p) => p.name == saved.selectedPeriod,
-                            ) ??
-                            TotalLimitPeriod.day;
-                        context.read<ExpensesLimitsBloc>().add(
-                          RevertLimits(
-                            categoryLimits: limits,
-                            selectedPeriod: period,
+                      },
+                      onApply: () async {
+                        final bloc = context.read<ExpensesLimitsBloc>();
+                        final state = bloc.state;
+                        final data = SavedLimits(
+                          categoryLimits: state.categoryLimits.map(
+                            (k, v) => MapEntry(k.name, v),
                           ),
+                          selectedPeriod: state.selectedPeriod.name,
                         );
-                      }
-                    },
-                    onApply: () async {
-                      final bloc = context.read<ExpensesLimitsBloc>();
-                      final state = bloc.state;
-                      final data = SavedLimits(
-                        categoryLimits: state.categoryLimits.map(
-                          (k, v) => MapEntry(k.name, v),
-                        ),
-                        selectedPeriod: state.selectedPeriod.name,
-                      );
-                      try {
-                        await sl<ExpensesLimitsRepository>().save(data);
-                        if (!context.mounted) return;
-                        bloc.add(LimitsSaved());
-                        if (!context.mounted) return;
-                        AlertServices.show(
-                          context,
-                          title: LocaleKeys.expenses_limits_limits_saved.tr(),
-                          type: AlertType.success,
-                        );
-                      } catch (_) {
-                        if (!context.mounted) return;
-                        AlertServices.show(
-                          context,
-                          title: LocaleKeys.expenses_limits_limits_save_error
-                              .tr(),
-                          type: AlertType.error,
-                        );
-                      }
-                    },
-                  ),
-                ],
+                        try {
+                          await sl<ExpensesLimitsRepository>().save(data);
+                          if (!context.mounted) return;
+                          bloc.add(LimitsSaved());
+                          if (!context.mounted) return;
+                          AlertServices.show(
+                            context,
+                            title: LocaleKeys.expenses_limits_limits_saved.tr(),
+                            type: AlertType.success,
+                          );
+                        } catch (_) {
+                          if (!context.mounted) return;
+                          AlertServices.show(
+                            context,
+                            title: LocaleKeys.expenses_limits_limits_save_error
+                                .tr(),
+                            type: AlertType.error,
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           );

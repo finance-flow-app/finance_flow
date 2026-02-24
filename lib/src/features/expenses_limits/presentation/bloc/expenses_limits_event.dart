@@ -4,6 +4,11 @@ abstract class ExpensesLimitsEvent {}
 
 class LoadLimits extends ExpensesLimitsEvent {}
 
+class RefreshLimitsRequested extends ExpensesLimitsEvent {
+  RefreshLimitsRequested(this.completer);
+  final Completer<void> completer;
+}
+
 class PeriodChanged extends ExpensesLimitsEvent {
   PeriodChanged(this.period);
   final TotalLimitPeriod period;

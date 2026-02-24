@@ -6,6 +6,9 @@ import 'package:finance_flow/src/features/expenses_limits/data/repository/expens
 import 'package:finance_flow/src/features/expenses_limits/domain/repository/expenses_limits_repository.dart';
 import 'package:finance_flow/src/features/expenses_limits/presentation/bloc/expenses_limits_bloc.dart';
 import 'package:finance_flow/src/features/home/presentation/bloc/home_bloc.dart';
+import 'package:finance_flow/src/features/manage_categories/data/manage_categories_repository_impl.dart';
+import 'package:finance_flow/src/features/manage_categories/domain/repository/manage_categories_repository.dart';
+import 'package:finance_flow/src/features/manage_categories/presentation/bloc/manage_categories_bloc.dart';
 import 'package:finance_flow/src/features/theme/data/repository/theme_repository_impl.dart';
 import 'package:finance_flow/src/features/theme/domain/repository/theme_repository.dart';
 import 'package:finance_flow/src/features/theme/presentation/bloc/theme_bloc.dart';
@@ -44,5 +47,13 @@ Future<void> setupServiceLocator(SharedPreferences sharedPreferences) async {
       languageCode: sl<SharedPreferences>().getString('language_code') ?? 'en',
       repo: sl<ExpensesLimitsRepository>(),
     ),
+  );
+
+  sl.registerLazySingleton<ManageCategoriesRepository>(
+    () => ManageCategoriesRepositoryImpl(sl()),
+  );
+
+  sl.registerFactory<ManageCategoriesBloc>(
+    () => ManageCategoriesBloc(sl<ManageCategoriesRepository>()),
   );
 }

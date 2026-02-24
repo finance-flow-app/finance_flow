@@ -76,6 +76,24 @@ class CodegenLoader extends AssetLoader{
     "apply": "Применить",
     "limits_saved": "Лимиты сохранены",
     "limits_save_error": "Не удалось сохранить лимиты. Попробуйте ещё раз."
+  },
+  "manage_categories_title": "Управление категориями",
+  "manage_categories_tabs": {
+    "active": "Активные",
+    "archived": "Архив",
+    "auto": "Авто"
+  },
+  "manage_categories_groups": {
+    "all": "Все",
+    "essentials": "Необходимое",
+    "lifestyle": "Образ жизни",
+    "work": "Работа",
+    "subscriptions": "Подписки",
+    "custom": "Свои"
+  },
+  "manage_categories_footer": {
+    "cancel": "Отмена",
+    "save_changes": "Сохранить"
   }
 };
 static const Map<String,dynamic> _en = {
@@ -140,6 +158,24 @@ static const Map<String,dynamic> _en = {
     "apply": "Apply",
     "limits_saved": "Limits saved",
     "limits_save_error": "Failed to save limits. Please try again."
+  },
+  "manage_categories_title": "Manage Categories",
+  "manage_categories_tabs": {
+    "active": "Active",
+    "archived": "Archived",
+    "auto": "Auto"
+  },
+  "manage_categories_groups": {
+    "all": "All",
+    "essentials": "Essentials",
+    "lifestyle": "Lifestyle",
+    "work": "Work",
+    "subscriptions": "Subscriptions",
+    "custom": "Custom"
+  },
+  "manage_categories_footer": {
+    "cancel": "Cancel",
+    "save_changes": "Save changes"
   }
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"ru": _ru, "en": _en};

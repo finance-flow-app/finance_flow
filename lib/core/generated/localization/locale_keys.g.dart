@@ -59,5 +59,20 @@ abstract class  LocaleKeys {
   static const expenses_limits_limits_saved = 'expenses_limits.limits_saved';
   static const expenses_limits_limits_save_error = 'expenses_limits.limits_save_error';
   static const expenses_limits = 'expenses_limits';
+  static const manage_categories_title = 'manage_categories_title';
+  static const manage_categories_tabs_active = 'manage_categories_tabs.active';
+  static const manage_categories_tabs_archived = 'manage_categories_tabs.archived';
+  static const manage_categories_tabs_auto = 'manage_categories_tabs.auto';
+  static const manage_categories_tabs = 'manage_categories_tabs';
+  static const manage_categories_groups_all = 'manage_categories_groups.all';
+  static const manage_categories_groups_essentials = 'manage_categories_groups.essentials';
+  static const manage_categories_groups_lifestyle = 'manage_categories_groups.lifestyle';
+  static const manage_categories_groups_work = 'manage_categories_groups.work';
+  static const manage_categories_groups_subscriptions = 'manage_categories_groups.subscriptions';
+  static const manage_categories_groups_custom = 'manage_categories_groups.custom';
+  static const manage_categories_groups = 'manage_categories_groups';
+  static const manage_categories_footer_cancel = 'manage_categories_footer.cancel';
+  static const manage_categories_footer_save_changes = 'manage_categories_footer.save_changes';
+  static const manage_categories_footer = 'manage_categories_footer';
 
 }

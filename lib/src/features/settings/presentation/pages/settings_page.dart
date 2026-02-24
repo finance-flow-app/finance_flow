@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:finance_flow/core/assets/app_fonts.dart';
+import 'package:finance_flow/core/generated/localization/locale_keys.g.dart';
 import 'package:finance_flow/core/router/app_router.dart';
 import 'package:finance_flow/core/shared/app_custom_appbar.dart';
 import 'package:finance_flow/core/shared/custom_widget_container.dart';
@@ -69,7 +71,7 @@ class SettingsPage extends StatelessWidget {
                       vertical: 8,
                     ),
                     child: Text(
-                      'Expenses limits',
+                      LocaleKeys.expenses_limits_title.tr(),
                       style: AppFonts.b4s18regular.copyWith(
                         color: colorScheme.onSurface,
                       ),
@@ -85,7 +87,9 @@ class SettingsPage extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(MobilePages.manageCategoriesPage.name);
+                  },
                   borderRadius: BorderRadius.circular(20),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -93,7 +97,7 @@ class SettingsPage extends StatelessWidget {
                       vertical: 8,
                     ),
                     child: Text(
-                      'Manage categories',
+                      LocaleKeys.manage_categories_title.tr(),
                       style: AppFonts.b4s18regular.copyWith(
                         color: colorScheme.onSurface,
                       ),

@@ -60,5 +60,23 @@
     "apply": "Apply",
     "limits_saved": "Limits saved",
     "limits_save_error": "Failed to save limits. Please try again."
+  },
+  "manage_categories_title": "Manage Categories",
+  "manage_categories_tabs": {
+    "active": "Active",
+    "archived": "Archived",
+    "auto": "Auto"
+  },
+  "manage_categories_groups": {
+    "all": "All",
+    "essentials": "Essentials",
+    "lifestyle": "Lifestyle",
+    "work": "Work",
+    "subscriptions": "Subscriptions",
+    "custom": "Custom"
+  },
+  "manage_categories_footer": {
+    "cancel": "Cancel",
+    "save_changes": "Save changes"
   }
 }

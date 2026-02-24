@@ -9,12 +9,16 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AppCustomAppBar({
     super.key,
     required this.title,
+    this.actions,
     this.blurSigma = 3,
     this.bottomRadius = 24,
     this.automaticallyImplyLeading = true,
   });
 
   final Widget title;
+
+  /// Дополнительные виджеты в правой части AppBar (например, иконка настроек).
+  final List<Widget>? actions;
 
   /// Сила блюра (как в navbar и CustomWidgetContainer).
   final double blurSigma;
@@ -44,6 +48,7 @@ class AppCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       title: title,
+      actions: actions,
       automaticallyImplyLeading: automaticallyImplyLeading,
       leading: automaticallyImplyLeading
           ? IconButton(
